@@ -12,6 +12,7 @@
             --bg-color: #1e1b18;
             --leather-spine: #141210;
             --paper-color: #fcf9f2;
+            --paper-back: #f4efe6;
             --paper-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
             --text-primary: #2c2825;
             --text-secondary: #736b63;
@@ -49,7 +50,7 @@
             align-items: center;
         }
 
-        /* Hard Leather Book Binding / Shell */
+        /* Hard Leather Book Shell */
         .book-binding {
             width: 920px;
             height: 560px;
@@ -61,7 +62,7 @@
             border: 2px solid #2d2824;
         }
 
-        /* Center Spine Crease Shadow */
+        /* Center Spine Shadow */
         .book-binding::after {
             content: '';
             position: absolute;
@@ -70,7 +71,7 @@
             bottom: 0;
             width: 40px;
             transform: translateX(-50%);
-            background: linear-gradient(90deg, rgba(0,0,0,0.3), rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.3));
+            background: linear-gradient(90deg, rgba(0,0,0,0.35), rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.35));
             pointer-events: none;
             z-index: 500;
         }
@@ -85,7 +86,7 @@
             transform-style: preserve-3d;
         }
 
-        /* Base Page Leaf Structure */
+        /* Page Leaf */
         .page-leaf {
             position: absolute;
             width: 50%;
@@ -94,7 +95,7 @@
             left: 50%;
             transform-style: preserve-3d;
             transform-origin: left center;
-            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
             cursor: pointer;
         }
 
@@ -102,7 +103,7 @@
             transform: rotateY(-180deg);
         }
 
-        /* Face Structure of Each Page */
+        /* Page Faces */
         .page-face {
             position: absolute;
             width: 100%;
@@ -126,11 +127,11 @@
 
         .page-face.back {
             transform: rotateY(180deg);
-            background-color: #f7f3ea; 
+            background-color: var(--paper-back);
             z-index: 1;
         }
 
-        /* Typography & Styling */
+        /* Typography & Layout inside pages */
         .page-header {
             text-align: center;
             border-bottom: 1px solid var(--border-color);
@@ -282,7 +283,7 @@
         <div class="book-binding">
             <div class="book" id="book">
                 
-                <!-- LEAF 3: Page 5 (Right) & Back Cover (Left when flipped) -->
+                <!-- LEAF 3: Front = Page 5 (Right side), Back = Page 6 (Left side when flipped) -->
                 <div class="page-leaf" id="leaf3" onclick="flipLeaf(3)">
                     <div class="page-face front">
                         <div class="page-header">
@@ -297,18 +298,25 @@
                             <span>Page 5</span>
                             <span>Atelier Varia</span>
                         </div>
-                        <div class="click-hint hint-right">Close Book →</div>
+                        <div class="click-hint hint-right">Turn Page →</div>
                     </div>
                     <div class="page-face back">
-                        <div class="page-body" style="justify-content: center; align-items: center;">
-                            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--text-primary); margin-bottom: 10px;">Atelier Varia</h2>
-                            <p style="font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary);">End of Lookbook</p>
+                        <div class="page-header">
+                            <div class="brand-subtitle">Closing Notes</div>
+                            <h2>Vision & Activation</h2>
                         </div>
-                        <div class="click-hint hint-left">← Open Book</div>
+                        <div class="page-body">
+                            <p>This layout serves as your complete placeholder framework. Simply replace these blocks with live stock when ready.</p>
+                        </div>
+                        <div class="page-footer">
+                            <span>Atelier Varia</span>
+                            <span>Page 6</span>
+                        </div>
+                        <div class="click-hint hint-left">← Previous Page</div>
                     </div>
                 </div>
 
-                <!-- LEAF 2: Page 3 (Right) & Page 4 (Left when flipped) -->
+                <!-- LEAF 2: Front = Page 3 (Right side), Back = Page 4 (Left side when flipped) -->
                 <div class="page-leaf" id="leaf2" onclick="flipLeaf(2)">
                     <div class="page-face front">
                         <div class="page-header">
@@ -361,14 +369,14 @@
                             </div>
                         </div>
                         <div class="page-footer">
-                            <span>Page 4</span>
                             <span>Atelier Varia</span>
+                            <span>Page 4</span>
                         </div>
                         <div class="click-hint hint-left">← Previous Page</div>
                     </div>
                 </div>
 
-                <!-- LEAF 1: Page 1/Cover (Right) & Page 2 (Left when flipped) -->
+                <!-- LEAF 1: Front = Page 1 (Cover / Right side), Back = Page 2 (Left side when flipped) -->
                 <div class="page-leaf" id="leaf1" onclick="flipLeaf(1)">
                     <div class="page-face front">
                         <div class="page-header" style="border: none; padding-top: 40px;">
@@ -403,8 +411,8 @@
                             </div>
                         </div>
                         <div class="page-footer">
-                            <span>Page 2</span>
                             <span>Atelier Varia</span>
+                            <span>Page 2</span>
                         </div>
                         <div class="click-hint hint-left">← Back to Cover</div>
                     </div>
@@ -422,7 +430,6 @@
     </div>
 
     <script>
-        // Track which leaves are flipped (false = resting on right, true = flipped to left)
         let leaves = [
             { id: 'leaf1', flipped: false },
             { id: 'leaf2', flipped: false },
@@ -430,24 +437,19 @@
         ];
 
         function updateBook() {
-            // Correct stacking layers so pages don't clip or overlap incorrectly
-            // Unflipped leaves stack with higher index on top (Leaf 1 on top of Leaf 2 on top of Leaf 3)
-            // Flipped leaves stack in reverse order so the last flipped page sits cleanly on the left stack
-            
             leaves.forEach((leafObj, index) => {
                 const el = document.getElementById(leafObj.id);
                 if (leafObj.flipped) {
                     el.classList.add('flipped');
-                    // Flipped stacking: earlier leaves are deeper underneath on the left stack
+                    // When flipped to the left, lower index leaves sit underneath
                     el.style.zIndex = index + 1;
                 } else {
                     el.classList.remove('flipped');
-                    // Unflipped stacking: lower indices (Leaf 1) sit on top on the right stack
+                    // When resting on the right, lower index leaves (like Leaf 1) sit strictly ON TOP of later ones
                     el.style.zIndex = leaves.length - index;
                 }
             });
 
-            // Calculate active spread count for counter
             let flippedCount = leaves.filter(l => l.flipped).length;
             document.getElementById('pageCounter').innerText = `Spread ${flippedCount + 1} of 4`;
         }
@@ -455,8 +457,6 @@
         function flipLeaf(leafNumber) {
             const index = leafNumber - 1;
             
-            // To maintain a natural book flow, you can only flip the next sequential page forward,
-            // or the last flipped page backward.
             if (!leaves[index].flipped) {
                 // Can only flip forward if all previous leaves are also flipped
                 let canFlip = true;
@@ -486,7 +486,6 @@
         }
 
         function turnNext() {
-            // Find the first unflipped leaf and flip it forward
             for (let i = 0; i < leaves.length; i++) {
                 if (!leaves[i].flipped) {
                     leaves[i].flipped = true;
@@ -497,7 +496,6 @@
         }
 
         function turnPrevious() {
-            // Find the last flipped leaf and flip it back
             for (let i = leaves.length - 1; i >= 0; i--) {
                 if (leaves[i].flipped) {
                     leaves[i].flipped = false;
@@ -507,7 +505,6 @@
             }
         }
 
-        // Initialize display
         updateBook();
     </script>
 </body>
