@@ -283,7 +283,7 @@
         <div class="book-binding">
             <div class="book" id="book">
                 
-                <!-- LEAF 3: Front = Page 5 (Right side), Back = Page 6 (Left side when flipped) -->
+                <!-- LEAF 3: Front = Page 5, Back = Page 6 -->
                 <div class="page-leaf" id="leaf3" onclick="flipLeaf(3)">
                     <div class="page-face front">
                         <div class="page-header">
@@ -316,7 +316,7 @@
                     </div>
                 </div>
 
-                <!-- LEAF 2: Front = Page 3 (Right side), Back = Page 4 (Left side when flipped) -->
+                <!-- LEAF 2: Front = Page 3, Back = Page 4 -->
                 <div class="page-leaf" id="leaf2" onclick="flipLeaf(2)">
                     <div class="page-face front">
                         <div class="page-header">
@@ -376,7 +376,7 @@
                     </div>
                 </div>
 
-                <!-- LEAF 1: Front = Page 1 (Cover / Right side), Back = Page 2 (Left side when flipped) -->
+                <!-- LEAF 1: Front = Page 1, Back = Page 2 -->
                 <div class="page-leaf" id="leaf1" onclick="flipLeaf(1)">
                     <div class="page-face front">
                         <div class="page-header" style="border: none; padding-top: 40px;">
@@ -443,10 +443,40 @@
                     el.classList.add('flipped');
                     // When flipped to the left, lower index leaves sit underneath
                     el.style.zIndex = index + 1;
+                    // Hide interactivity/pointer events on pages buried under the left stack
+                    el.style.pointerEvents = (index === leaves.map(l => l.flipped).lastIndexOf(true)) ? 'auto' : 'none';
                 } else {
                     el.classList.remove('flipped');
-                    // When resting on the right, lower index leaves (like Leaf 1) sit strictly ON TOP of later ones
-                    el.style.zIndex = leaves.length - index;
+                    // When resting on the right, only the TOPmost unflipped leaf should be clickable and visible
+                    let firstUnflippedIndex = leaves.findIndex(l => !l.flipped);
+                    if (index === firstUnflippedIndex) {
+                        el.style.zIndex = 100;
+                        el.style.display = 'block';
+                        el.style.pointerEvents = 'auto';
+                    } else if (index < firstUnflippedIndex) {
+                        // Already flipped leaves sitting on the left stack
+                        el.style.zIndex = index + 1;
+                        el.style.pointerEvents = (index === firstUnflippedIndex - 1) ? 'auto' : 'none';
+                    } else {
+                        // Unflipped leaves buried underneath the top resting page on the right -> hide them completely so they don't peek or overlap!
+                        el.style.zIndex = 0;
+                        el.style.pointerEvents = 'none';
+                    }
+                }
+            });
+
+            // Special pass to handle display visibility so buried right-side pages don't show through
+            let firstUnflipped = leaves.findIndex(l => !l.flipped);
+            leaves.forEach((leafObj, index) => {
+                const el = document.getElementById(leafObj.id);
+                if (!leafObj.flipped) {
+                    if (firstUnflipped === -1 || index === firstUnflipped) {
+                        el.style.display = 'block';
+                    } else {
+                        el.style.display = 'none'; // Hide hidden pages underneath the current right-side page
+                    }
+                } else {
+                    el.style.display = 'block'; // All flipped leaves on the left stack remain visible
                 }
             });
 
@@ -458,7 +488,6 @@
             const index = leafNumber - 1;
             
             if (!leaves[index].flipped) {
-                // Can only flip forward if all previous leaves are also flipped
                 let canFlip = true;
                 for (let i = 0; i < index; i++) {
                     if (!leaves[i].flipped) {
@@ -470,7 +499,6 @@
                     leaves[index].flipped = true;
                 }
             } else {
-                // Can only flip backward if all subsequent leaves are unflipped
                 let canUnflip = true;
                 for (let i = index + 1; i < leaves.length; i++) {
                     if (leaves[i].flipped) {
