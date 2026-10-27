@@ -12,7 +12,7 @@
             --bg-color: #1e1b18;
             --leather-spine: #141210;
             --paper-color: #fcf9f2;
-            --paper-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(0, 0, 0, 0.04);
+            --paper-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
             --text-primary: #2c2825;
             --text-secondary: #736b63;
             --accent: #9a7b5e;
@@ -61,18 +61,18 @@
             border: 2px solid #2d2824;
         }
 
-        /* Deep Center Crease Spine Shadow */
+        /* Center Spine Crease Shadow */
         .book-binding::after {
             content: '';
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 50px;
+            width: 40px;
             transform: translateX(-50%);
-            background: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.25));
+            background: linear-gradient(90deg, rgba(0,0,0,0.3), rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.3));
             pointer-events: none;
-            z-index: 1000;
+            z-index: 500;
         }
 
         /* Book Container */
@@ -85,8 +85,8 @@
             transform-style: preserve-3d;
         }
 
-        /* Base Page Layout */
-        .page {
+        /* Base Page Leaf Structure */
+        .page-leaf {
             position: absolute;
             width: 50%;
             height: 100%;
@@ -98,11 +98,11 @@
             cursor: pointer;
         }
 
-        .page.flipped {
+        .page-leaf.flipped {
             transform: rotateY(-180deg);
         }
 
-        /* Face Structure of Each Page Leaf */
+        /* Face Structure of Each Page */
         .page-face {
             position: absolute;
             width: 100%;
@@ -126,7 +126,7 @@
 
         .page-face.back {
             transform: rotateY(180deg);
-            background-color: #f7f3ea; /* Slight tint difference for realism */
+            background-color: #f7f3ea; 
             z-index: 1;
         }
 
@@ -235,7 +235,7 @@
             pointer-events: none;
         }
 
-        .page:hover .click-hint {
+        .page-leaf:hover .click-hint {
             opacity: 0.75;
         }
 
@@ -282,8 +282,8 @@
         <div class="book-binding">
             <div class="book" id="book">
                 
-                <!-- LEAF 3 (Back Spread: Page 5 & Back Cover) -->
-                <div class="page" id="leaf3" style="z-index: 1;" onclick="flipLeaf('leaf3')">
+                <!-- LEAF 3: Page 5 (Right) & Back Cover (Left when flipped) -->
+                <div class="page-leaf" id="leaf3" onclick="flipLeaf(3)">
                     <div class="page-face front">
                         <div class="page-header">
                             <div class="brand-subtitle">Information & Heritage</div>
@@ -308,8 +308,8 @@
                     </div>
                 </div>
 
-                <!-- LEAF 2 (Middle Spread: Page 3 & Page 4) -->
-                <div class="page" id="leaf2" style="z-index: 2;" onclick="flipLeaf('leaf2')">
+                <!-- LEAF 2: Page 3 (Right) & Page 4 (Left when flipped) -->
+                <div class="page-leaf" id="leaf2" onclick="flipLeaf(2)">
                     <div class="page-face front">
                         <div class="page-header">
                             <div class="brand-subtitle">Curated Catalog</div>
@@ -368,8 +368,8 @@
                     </div>
                 </div>
 
-                <!-- LEAF 1 (Front Spread: Cover/Welcome & Page 2) -->
-                <div class="page" id="leaf1" style="z-index: 3;" onclick="flipLeaf('leaf1')">
+                <!-- LEAF 1: Page 1/Cover (Right) & Page 2 (Left when flipped) -->
+                <div class="page-leaf" id="leaf1" onclick="flipLeaf(1)">
                     <div class="page-face front">
                         <div class="page-header" style="border: none; padding-top: 40px;">
                             <div class="brand-subtitle">Placeholder Lookbook</div>
@@ -417,59 +417,98 @@
     <!-- External Controls -->
     <div class="nav-bar">
         <button class="control-btn" onclick="turnPrevious()">← Previous Spread</button>
-        <span class="page-counter" id="pageCounter">Spread 1 of 3</span>
+        <span class="page-counter" id="pageCounter">Spread 1 of 4</span>
         <button class="control-btn" onclick="turnNext()">Next Spread →</button>
     </div>
 
     <script>
-        let currentLeafIndex = 0; // 0 = Cover closed, 1 = Leaf 1 flipped, 2 = Leaf 2 flipped, 3 = All flipped
-        const totalLeaves = 3;
+        // Track which leaves are flipped (false = resting on right, true = flipped to left)
+        let leaves = [
+            { id: 'leaf1', flipped: false },
+            { id: 'leaf2', flipped: false },
+            { id: 'leaf3', flipped: false }
+        ];
 
-        function updateBookState() {
-            // Manage leaf stacking and rotation classes
-            for (let i = 1; i <= totalLeaves; i++) {
-                const leaf = document.getElementById(`leaf${i}`);
-                if (i <= currentLeafIndex) {
-                    leaf.classList.add('flipped');
-                    // Higher flipped leaves get lower z-index so they stack correctly underneath
-                    leaf.style.zIndex = totalLeaves - i;
+        function updateBook() {
+            // Correct stacking layers so pages don't clip or overlap incorrectly
+            // Unflipped leaves stack with higher index on top (Leaf 1 on top of Leaf 2 on top of Leaf 3)
+            // Flipped leaves stack in reverse order so the last flipped page sits cleanly on the left stack
+            
+            leaves.forEach((leafObj, index) => {
+                const el = document.getElementById(leafObj.id);
+                if (leafObj.flipped) {
+                    el.classList.add('flipped');
+                    // Flipped stacking: earlier leaves are deeper underneath on the left stack
+                    el.style.zIndex = index + 1;
                 } else {
-                    leaf.classList.remove('flipped');
-                    // Unflipped leaves stack with higher index on top
-                    leaf.style.zIndex = totalLeaves - i + 1;
+                    el.classList.remove('flipped');
+                    // Unflipped stacking: lower indices (Leaf 1) sit on top on the right stack
+                    el.style.zIndex = leaves.length - index;
                 }
-            }
-            document.getElementById('pageCounter').innerText = `Spread ${currentLeafIndex + 1} of ${totalLeaves + 1}`;
+            });
+
+            // Calculate active spread count for counter
+            let flippedCount = leaves.filter(l => l.flipped).length;
+            document.getElementById('pageCounter').innerText = `Spread ${flippedCount + 1} of 4`;
         }
 
-        function flipLeaf(leafId) {
-            const leafNum = parseInt(leafId.replace('leaf', ''));
-            // If clicking a leaf that is currently the active boundary, toggle it
-            if (leafNum === currentLeafIndex + 1) {
-                currentLeafIndex++;
-                updateBookState();
-            } else if (leafNum === currentLeafIndex) {
-                currentLeafIndex--;
-                updateBookState();
+        function flipLeaf(leafNumber) {
+            const index = leafNumber - 1;
+            
+            // To maintain a natural book flow, you can only flip the next sequential page forward,
+            // or the last flipped page backward.
+            if (!leaves[index].flipped) {
+                // Can only flip forward if all previous leaves are also flipped
+                let canFlip = true;
+                for (let i = 0; i < index; i++) {
+                    if (!leaves[i].flipped) {
+                        canFlip = false;
+                        break;
+                    }
+                }
+                if (canFlip) {
+                    leaves[index].flipped = true;
+                }
+            } else {
+                // Can only flip backward if all subsequent leaves are unflipped
+                let canUnflip = true;
+                for (let i = index + 1; i < leaves.length; i++) {
+                    if (leaves[i].flipped) {
+                        canUnflip = false;
+                        break;
+                    }
+                }
+                if (canUnflip) {
+                    leaves[index].flipped = false;
+                }
             }
+            updateBook();
         }
 
         function turnNext() {
-            if (currentLeafIndex < totalLeaves) {
-                currentLeafIndex++;
-                updateBookState();
+            // Find the first unflipped leaf and flip it forward
+            for (let i = 0; i < leaves.length; i++) {
+                if (!leaves[i].flipped) {
+                    leaves[i].flipped = true;
+                    updateBook();
+                    break;
+                }
             }
         }
 
         function turnPrevious() {
-            if (currentLeafIndex > 0) {
-                currentLeafIndex--;
-                updateBookState();
+            // Find the last flipped leaf and flip it back
+            for (let i = leaves.length - 1; i >= 0; i--) {
+                if (leaves[i].flipped) {
+                    leaves[i].flipped = false;
+                    updateBook();
+                    break;
+                }
             }
         }
 
-        // Initialize view
-        updateBookState();
+        // Initialize display
+        updateBook();
     </script>
 </body>
 </html>
