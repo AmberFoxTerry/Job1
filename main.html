@@ -347,7 +347,7 @@
             <div style="margin-bottom: 24px;">
                 <h2>Katalog</h2>
                 <div class="filter-bar">
-                    <span class="filter-label">Řadit:</span>
+                    <span class="filter-label">Seřadit:</span>
                     <button class="filter-btn active" onclick="sortProducts('az', this)">A–Z</button>
                     <button class="filter-btn" onclick="sortProducts('price-asc', this)">Cena – Od nejnižší</button>
                     <button class="filter-btn" onclick="sortProducts('price-desc', this)">Cena – Od nejvyšší</button>
@@ -357,98 +357,50 @@
             <div class="catalog-grid" id="catalogGrid">
                 
                 <!-- PRODUCT ITEM 1 -->
-                <div class="product-card" data-name="Hřejivý župan" data-price="890">
+                <div class="product-card" data-name="Triko" data-price="390">
                     <div class="product-img">📷 Fotografie produktu</div>
                     <div class="product-content">
                         <div class="product-header">
-                            <div class="product-name">Hřejivý župan</div>
-                            <div class="product-price">890 Kč</div>
+                            <div class="product-name">Triko</div>
+                            <div class="product-price">390 Kč</div>
                         </div>
-                        <div class="product-info">Pohodlný a hřejivý materiál, ideální na chladné večery. Velikosti S–XL.</div>
+                        <div class="product-info">Pohodlné bavlněné tričko pro každodenní nošení.</div>
                     </div>
                 </div>
 
                 <!-- PRODUCT ITEM 2 -->
-                <div class="product-card" data-name="Dámské plavky" data-price="650">
+                <div class="product-card" data-name="Mikina" data-price="890">
                     <div class="product-img">📷 Fotografie produktu</div>
                     <div class="product-content">
                         <div class="product-header">
-                            <div class="product-name">Dámské plavky</div>
-                            <div class="product-price">650 Kč</div>
+                            <div class="product-name">Mikina</div>
+                            <div class="product-price">890 Kč</div>
                         </div>
-                        <div class="product-info">Elegantní střih, rychleschnoucí tkanina, vysoká odolnost vůči chloru.</div>
+                        <div class="product-info">Teplá a příjemná mikina s kapucí do chladnějšího počasí.</div>
                     </div>
                 </div>
 
                 <!-- PRODUCT ITEM 3 -->
-                <div class="product-card" data-name="Pletený svetr" data-price="990">
+                <div class="product-card" data-name="Plavky" data-price="650">
                     <div class="product-img">📷 Fotografie produktu</div>
                     <div class="product-content">
                         <div class="product-header">
-                            <div class="product-name">Pletený svetr</div>
-                            <div class="product-price">990 Kč</div>
+                            <div class="product-name">Plavky</div>
+                            <div class="product-price">650 Kč</div>
                         </div>
-                        <div class="product-info">Měkký úplet příjemný na tělo, nadčasový design pro každou příležitost.</div>
+                        <div class="product-info">Stylové plavky z rychleschnoucího materiálu k vodě.</div>
                     </div>
                 </div>
 
                 <!-- PRODUCT ITEM 4 -->
-                <div class="product-card" data-name="Bavlněné tričko" data-price="390">
+                <div class="product-card" data-name="Kalhoty" data-price="790">
                     <div class="product-img">📷 Fotografie produktu</div>
                     <div class="product-content">
                         <div class="product-header">
-                            <div class="product-name">Bavlněné tričko</div>
-                            <div class="product-price">390 Kč</div>
+                            <div class="product-name">Kalhoty</div>
+                            <div class="product-price">790 Kč</div>
                         </div>
-                        <div class="product-info">100% bavlna, prodyšný materiál s dlouhou životností barev.</div>
-                    </div>
-                </div>
-
-                <!-- PRODUCT ITEM 5 -->
-                <div class="product-card" data-name="Pohodlné legíny" data-price="490">
-                    <div class="product-img">📷 Fotografie produktu</div>
-                    <div class="product-content">
-                        <div class="product-header">
-                            <div class="product-name">Pohodlné legíny</div>
-                            <div class="product-price">490 Kč</div>
-                        </div>
-                        <div class="product-info">Elastický a neprosvítající materiál vhodný na cvičení i běžné nošení.</div>
-                    </div>
-                </div>
-
-                <!-- PRODUCT ITEM 6 -->
-                <div class="product-card" data-name="Luxusní župan" data-price="1290">
-                    <div class="product-img">📷 Fotografie produktu</div>
-                    <div class="product-content">
-                        <div class="product-header">
-                            <div class="product-name">Luxusní župan</div>
-                            <div class="product-price">1 290 Kč</div>
-                        </div>
-                        <div class="product-info">Prémiová hebká bavlna, špičkové zpracování a maximální komfort.</div>
-                    </div>
-                </div>
-
-                <!-- PRODUCT ITEM 7 -->
-                <div class="product-card" data-name="Pánské plavky" data-price="550">
-                    <div class="product-img">📷 Fotografie produktu</div>
-                    <div class="product-content">
-                        <div class="product-header">
-                            <div class="product-name">Pánské plavky</div>
-                            <div class="product-price">550 Kč</div>
-                        </div>
-                        <div class="product-info">Sportovní střih s nastavitelnou šňůrkou v pase a vnitřní síťovinou.</div>
-                    </div>
-                </div>
-
-                <!-- PRODUCT ITEM 8 -->
-                <div class="product-card" data-name="Letní šaty" data-price="850">
-                    <div class="product-img">📷 Fotografie produktu</div>
-                    <div class="product-content">
-                        <div class="product-header">
-                            <div class="product-name">Letní šaty</div>
-                            <div class="product-price">850 Kč</div>
-                        </div>
-                        <div class="product-info">Lehké, vzdušné šaty ideální do horkých letních dnů.</div>
+                        <div class="product-info">Pohodlné kalhoty volného střihu pro maximální komfort.</div>
                     </div>
                 </div>
 
@@ -492,7 +444,6 @@
         }
 
         function sortProducts(criteria, btnElement) {
-            // Update active state of filter buttons
             const filterBtns = document.querySelectorAll('.filter-btn');
             filterBtns.forEach(btn => btn.classList.remove('active'));
             btnElement.classList.add('active');
@@ -510,7 +461,6 @@
                 }
             });
 
-            // Re-append sorted cards to grid
             cards.forEach(card => grid.appendChild(card));
         }
     </script>
