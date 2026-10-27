@@ -9,10 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #262421;
-            --leather-spine: #1a1816;
+            --bg-color: #1e1b18;
+            --leather-spine: #141210;
             --paper-color: #fcf9f2;
-            --paper-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05), 0 25px 50px rgba(0, 0, 0, 0.4);
+            --paper-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(0, 0, 0, 0.04);
             --text-primary: #2c2825;
             --text-secondary: #736b63;
             --accent: #9a7b5e;
@@ -37,11 +37,11 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            perspective: 2000px;
+            perspective: 2500px;
         }
 
         .scene {
-            width: 1000px;
+            width: 960px;
             height: 600px;
             position: relative;
             display: flex;
@@ -49,72 +49,60 @@
             align-items: center;
         }
 
-        /* The Hard Book Cover / Backing */
+        /* Hard Leather Book Binding / Shell */
         .book-binding {
             width: 920px;
             height: 560px;
             background: var(--leather-spine);
-            border-radius: 6px;
+            border-radius: 8px;
             box-shadow: var(--paper-shadow);
             position: relative;
             display: flex;
+            border: 2px solid #2d2824;
         }
 
-        /* Center Binding Shadow */
+        /* Deep Center Crease Spine Shadow */
         .book-binding::after {
             content: '';
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 40px;
+            width: 50px;
             transform: translateX(-50%);
-            background: linear-gradient(90deg, rgba(0,0,0,0.15), rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.15));
+            background: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.25));
             pointer-events: none;
-            z-index: 100;
+            z-index: 1000;
         }
 
-        /* Book Pages Stack Container */
+        /* Book Container */
         .book {
             position: absolute;
             width: 900px;
             height: 540px;
             top: 10px;
             left: 10px;
-            display: flex;
             transform-style: preserve-3d;
         }
 
-        /* Individual Page Spread Structure */
+        /* Base Page Layout */
         .page {
             position: absolute;
             width: 50%;
             height: 100%;
             top: 0;
+            left: 50%;
             transform-style: preserve-3d;
             transform-origin: left center;
-            transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
             cursor: pointer;
         }
 
-        .page.left-side {
-            left: 0;
-            transform-origin: right center;
-            z-index: 1;
-        }
-
-        .page.right-side {
-            left: 50%;
-            transform-origin: left center;
-            z-index: 2;
-        }
-
-        /* Flipping Animation State */
         .page.flipped {
             transform: rotateY(-180deg);
         }
 
-        /* Page Face Layout */
+        /* Face Structure of Each Page Leaf */
         .page-face {
             position: absolute;
             width: 100%;
@@ -138,21 +126,16 @@
 
         .page-face.back {
             transform: rotateY(180deg);
-            background-color: #f7f3ea; /* Slightly aged look for back pages */
+            background-color: #f7f3ea; /* Slight tint difference for realism */
             z-index: 1;
         }
 
-        /* Specific Page Positioning Fixes */
-        #p1 { z-index: 3; }
-        #p2 { z-index: 2; }
-        #p3 { z-index: 1; }
-
-        /* Page Content Styles */
+        /* Typography & Styling */
         .page-header {
             text-align: center;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .brand-subtitle {
@@ -165,7 +148,7 @@
 
         .page-header h2 {
             font-family: var(--font-serif);
-            font-size: 2rem;
+            font-size: 2.1rem;
             font-weight: 400;
             color: var(--text-primary);
         }
@@ -177,7 +160,7 @@
             justify-content: center;
             gap: 15px;
             font-size: 0.95rem;
-            line-height: 1.6;
+            line-height: 1.65;
             color: var(--text-secondary);
             font-weight: 300;
             text-align: center;
@@ -188,32 +171,44 @@
             font-weight: 500;
         }
 
-        /* Product Grid on Page 2 Back */
-        .mini-grid {
+        /* Product Showcase Grid Layout */
+        .item-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin-top: 5px;
         }
 
-        .mini-card {
+        .item-slot {
             border: 1px dashed var(--border-color);
             background: #faf8f2;
-            padding: 12px;
-            border-radius: 4px;
+            padding: 16px 12px;
+            border-radius: 6px;
             text-align: center;
+            transition: border-color 0.2s ease;
         }
 
-        .mini-card span {
-            font-size: 1.2rem;
+        .item-slot:hover {
+            border-color: var(--accent);
+        }
+
+        .item-slot .icon {
+            font-size: 1.6rem;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
-        .mini-card h4 {
+        .item-slot h4 {
             font-size: 0.85rem;
             font-weight: 500;
             color: var(--text-primary);
+            margin-bottom: 3px;
+        }
+
+        .item-slot span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-style: italic;
         }
 
         .page-footer {
@@ -224,14 +219,15 @@
             color: var(--text-secondary);
             border-top: 1px solid var(--border-color);
             padding-top: 15px;
+            letter-spacing: 0.05em;
         }
 
-        /* Click Hints on Sides */
+        /* Interactive Click Indicators */
         .click-hint {
             position: absolute;
             bottom: 20px;
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--accent);
             opacity: 0;
@@ -239,31 +235,31 @@
             pointer-events: none;
         }
 
-        .right-side:hover .click-hint.next-hint,
-        .left-side.flipped:hover .click-hint.prev-hint {
-            opacity: 0.8;
+        .page:hover .click-hint {
+            opacity: 0.75;
         }
 
-        .next-hint { right: 30px; }
-        .prev-hint { left: 30px; }
+        .hint-right { right: 30px; }
+        .hint-left { left: 30px; }
 
         /* External Navigation Bar */
         .nav-bar {
             margin-top: 25px;
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
         }
 
         .control-btn {
-            background: #36332f;
-            border: 1px solid #4d4843;
+            background: #2d2925;
+            border: 1px solid #453f39;
             color: #dcd6cd;
-            padding: 8px 20px;
+            padding: 10px 22px;
             border-radius: 4px;
             font-size: 0.85rem;
+            letter-spacing: 0.05em;
             cursor: pointer;
-            transition: background 0.2s ease, color 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .control-btn:hover {
@@ -272,10 +268,11 @@
             border-color: var(--accent);
         }
 
-        .instruction-tag {
+        .page-counter {
             color: #8c8378;
             font-size: 0.85rem;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
+            font-variant-numeric: tabular-nums;
         }
     </style>
 </head>
@@ -285,109 +282,131 @@
         <div class="book-binding">
             <div class="book" id="book">
                 
-                <!-- PAGE 1 (Cover / Welcome Front) -->
-                <div class="page right-side" id="p1" onclick="turnPage('p1', true)">
+                <!-- LEAF 3 (Back Spread: Page 5 & Back Cover) -->
+                <div class="page" id="leaf3" style="z-index: 1;" onclick="flipLeaf('leaf3')">
                     <div class="page-face front">
                         <div class="page-header">
-                            <div class="brand-subtitle">Placeholder Lookbook</div>
-                            <h2>Atelier Varia</h2>
+                            <div class="brand-subtitle">Information & Heritage</div>
+                            <h2>Crafted for All Generations</h2>
                         </div>
                         <div class="page-body">
-                            <p>Welcome to the digital lookbook canvas. Crafted to accommodate every generation from 18 to 75 with timeless style.</p>
-                            <p><strong>Click anywhere on the right edge or use the buttons below to flip through the pages.</strong></p>
+                            <p>Designed thoughtfully to appeal seamlessly from 18 to 75. Combining timeless silhouettes with everyday luxury.</p>
+                            <p><strong>Ready for your real inventory drop.</strong></p>
+                        </div>
+                        <div class="page-footer">
+                            <span>Page 5</span>
+                            <span>Atelier Varia</span>
+                        </div>
+                        <div class="click-hint hint-right">Close Book →</div>
+                    </div>
+                    <div class="page-face back">
+                        <div class="page-body" style="justify-content: center; align-items: center;">
+                            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--text-primary); margin-bottom: 10px;">Atelier Varia</h2>
+                            <p style="font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary);">End of Lookbook</p>
+                        </div>
+                        <div class="click-hint hint-left">← Open Book</div>
+                    </div>
+                </div>
+
+                <!-- LEAF 2 (Middle Spread: Page 3 & Page 4) -->
+                <div class="page" id="leaf2" style="z-index: 2;" onclick="flipLeaf('leaf2')">
+                    <div class="page-face front">
+                        <div class="page-header">
+                            <div class="brand-subtitle">Curated Catalog</div>
+                            <h2>Essentials & Knitwear</h2>
+                        </div>
+                        <div class="item-grid">
+                            <div class="item-slot">
+                                <span class="icon">🧶</span>
+                                <h4>Cashmere Knit</h4>
+                                <span>Slot 03</span>
+                            </div>
+                            <div class="item-slot">
+                                <span class="icon">🧣</span>
+                                <h4>Wool Scarf</h4>
+                                <span>Slot 04</span>
+                            </div>
+                            <div class="item-slot">
+                                <span class="icon">👖</span>
+                                <h4>Tailored Trousers</h4>
+                                <span>Slot 05</span>
+                            </div>
+                            <div class="item-slot">
+                                <span class="icon">🧥</span>
+                                <h4>Overcoat</h4>
+                                <span>Slot 06</span>
+                            </div>
+                        </div>
+                        <div class="page-footer">
+                            <span>Page 3</span>
+                            <span>Atelier Varia</span>
+                        </div>
+                        <div class="click-hint hint-right">Turn Page →</div>
+                    </div>
+                    <div class="page-face back">
+                        <div class="page-header">
+                            <div class="brand-subtitle">Curated Catalog</div>
+                            <h2>Accessories & Details</h2>
+                        </div>
+                        <div class="item-grid">
+                            <div class="item-slot">
+                                <span class="icon">👜</span>
+                                <h4>Leather Tote</h4>
+                                <span>Slot 07</span>
+                            </div>
+                            <div class="item-slot">
+                                <span class="icon">🧢</span>
+                                <h4>Classic Cap</h4>
+                                <span>Slot 08</span>
+                            </div>
+                        </div>
+                        <div class="page-footer">
+                            <span>Page 4</span>
+                            <span>Atelier Varia</span>
+                        </div>
+                        <div class="click-hint hint-left">← Previous Page</div>
+                    </div>
+                </div>
+
+                <!-- LEAF 1 (Front Spread: Cover/Welcome & Page 2) -->
+                <div class="page" id="leaf1" style="z-index: 3;" onclick="flipLeaf('leaf1')">
+                    <div class="page-face front">
+                        <div class="page-header" style="border: none; padding-top: 40px;">
+                            <div class="brand-subtitle">Placeholder Lookbook</div>
+                            <h1 style="font-family: var(--font-serif); font-size: 2.8rem; font-weight: 400; margin-top: 15px;">Atelier Varia</h1>
+                        </div>
+                        <div class="page-body">
+                            <p>A sophisticated placeholder experience ready for your upcoming fashion collection.</p>
+                            <p style="font-style: italic; font-size: 0.85rem; color: var(--accent);">Click anywhere on the page or corner to turn.</p>
                         </div>
                         <div class="page-footer">
                             <span>Est. 2026</span>
                             <span>Page 1</span>
                         </div>
-                        <div class="click-hint next-hint">Flip →</div>
+                        <div class="click-hint hint-right">Open Lookbook →</div>
                     </div>
                     <div class="page-face back">
                         <div class="page-header">
-                            <div class="brand-subtitle">Curated Collection</div>
-                            <h2>Essentials & Outerwear</h2>
+                            <div class="brand-subtitle">Curated Catalog</div>
+                            <h2>Outerwear & Blazers</h2>
                         </div>
-                        <div class="page-body">
-                            <p>A sneak peek at placeholder silhouettes ready for inventory integration.</p>
-                            <div class="mini-grid">
-                                <div class="mini-card">
-                                    <span>🧥</span>
-                                    <h4>Coat Placeholder</h4>
-                                </div>
-                                <div class="mini-card">
-                                    <span>🧶</span>
-                                    <h4>Knit Placeholder</h4>
-                                </div>
+                        <div class="item-grid">
+                            <div class="item-slot">
+                                <span class="icon">🧥</span>
+                                <h4>Classic Blazer</h4>
+                                <span>Slot 01</span>
+                            </div>
+                            <div class="item-slot">
+                                <span class="icon">👔</span>
+                                <h4>Linen Shirt</h4>
+                                <span>Slot 02</span>
                             </div>
                         </div>
                         <div class="page-footer">
                             <span>Page 2</span>
                             <span>Atelier Varia</span>
                         </div>
-                    </div>
-                </div>
-
-                <!-- PAGE 2 (Catalog / Details) -->
-                <div class="page right-side" id="p2" onclick="turnPage('p2', true)">
-                    <div class="page-face front">
-                        <div class="page-header">
-                            <div class="brand-subtitle">Curated Collection</div>
-                            <h2>Essentials & Outerwear</h2>
-                        </div>
-                        <div class="page-body">
-                            <p>A sneak peek at placeholder silhouettes ready for inventory integration.</p>
-                            <div class="mini-grid">
-                                <div class="mini-card">
-                                    <span>🧥</span>
-                                    <h4>Coat Placeholder</h4>
-                                </div>
-                                <div class="mini-card">
-                                    <span>🧶</span>
-                                    <h4>Knit Placeholder</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="page-footer">
-                            <span>Page 2</span>
-                            <span>Atelier Varia</span>
-                        </div>
-                        <div class="click-hint next-hint">Flip →</div>
-                    </div>
-                    <div class="page-face back">
-                        <div class="page-header">
-                            <div class="brand-subtitle">Information & Vision</div>
-                            <h2>Heritage & Contact</h2>
-                        </div>
-                        <div class="page-body">
-                            <p>Designed for seamless product drops by the boutique owner. Clean, accessible, and versatile.</p>
-                            <p><strong>Drop real items here upon activation.</strong></p>
-                        </div>
-                        <div class="page-footer">
-                            <span>Page 3</span>
-                            <span>Atelier Varia</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PAGE 3 (Back Page / Contact) -->
-                <div class="page right-side" id="p3" onclick="turnPage('p3', true)">
-                    <div class="page-face front">
-                        <div class="page-header">
-                            <div class="brand-subtitle">Information & Vision</div>
-                            <h2>Heritage & Contact</h2>
-                        </div>
-                        <div class="page-body">
-                            <p>Designed for seamless product drops by the boutique owner. Clean, accessible, and versatile.</p>
-                            <p><strong>Drop real items here upon activation.</strong></p>
-                        </div>
-                        <div class="page-footer">
-                            <span>Page 3</span>
-                            <span>Atelier Varia</span>
-                        </div>
-                        <div class="click-hint next-hint">End →</div>
-                    </div>
-                    <div class="page-face back">
-                        <!-- Empty Back Cover Filler -->
+                        <div class="click-hint hint-left">← Back to Cover</div>
                     </div>
                 </div>
 
@@ -395,90 +414,62 @@
         </div>
     </div>
 
-    <!-- External Controls for ease of use -->
+    <!-- External Controls -->
     <div class="nav-bar">
-        <button class="control-btn" onclick="flipPrevious()">← Previous Page</button>
-        <span class="instruction-tag">Click the page corners or buttons to turn</span>
-        <button class="control-btn" onclick="flipNext()">Next Page →</button>
+        <button class="control-btn" onclick="turnPrevious()">← Previous Spread</button>
+        <span class="page-counter" id="pageCounter">Spread 1 of 3</span>
+        <button class="control-btn" onclick="turnNext()">Next Spread →</button>
     </div>
 
     <script>
-        let pageOrder = ['p1', 'p2', 'p3'];
-        let currentState = {
-            p1: false, // false = right side, true = flipped left
-            p2: false,
-            p3: false
-        };
+        let currentLeafIndex = 0; // 0 = Cover closed, 1 = Leaf 1 flipped, 2 = Leaf 2 flipped, 3 = All flipped
+        const totalLeaves = 3;
 
-        function updateZIndices() {
-            // Adjust stacking order dynamically so flipping pages look physically correct
-            if (currentState.p3) {
-                document.getElementById('p3').style.zIndex = 10;
-            } else {
-                document.getElementById('p3').style.zIndex = 1;
-            }
-
-            if (currentState.p2) {
-                document.getElementById('p2').style.zIndex = 11;
-            } else {
-                document.getElementById('p2').style.zIndex = 2;
-            }
-
-            if (currentState.p1) {
-                document.getElementById('p1').style.zIndex = 12;
-            } else {
-                document.getElementById('p1').style.zIndex = 3;
-            }
-        }
-
-        function turnPage(pageId, forward) {
-            if (forward && !currentState[pageId]) {
-                currentState[pageId] = true;
-                document.getElementById(pageId).classList.add('flipped');
-            } else if (!forward && currentState[pageId]) {
-                currentState[pageId] = false;
-                document.getElementById(pageId).classList.remove('flipped');
-            }
-            updateZIndices();
-        }
-
-        function flipNext() {
-            // Find the first unflipped page from left to right
-            for (let i = 0; i < pageOrder.length; i++) {
-                let id = pageOrder[i];
-                if (!currentState[id]) {
-                    turnPage(id, true);
-                    break;
+        function updateBookState() {
+            // Manage leaf stacking and rotation classes
+            for (let i = 1; i <= totalLeaves; i++) {
+                const leaf = document.getElementById(`leaf${i}`);
+                if (i <= currentLeafIndex) {
+                    leaf.classList.add('flipped');
+                    // Higher flipped leaves get lower z-index so they stack correctly underneath
+                    leaf.style.zIndex = totalLeaves - i;
+                } else {
+                    leaf.classList.remove('flipped');
+                    // Unflipped leaves stack with higher index on top
+                    leaf.style.zIndex = totalLeaves - i + 1;
                 }
             }
+            document.getElementById('pageCounter').innerText = `Spread ${currentLeafIndex + 1} of ${totalLeaves + 1}`;
         }
 
-        function flipPrevious() {
-            // Find the last flipped page from right to left
-            for (let i = pageOrder.length - 1; i >= 0; i--) {
-                let id = pageOrder[i];
-                if (currentState[id]) {
-                    turnPage(id, false);
-                    break;
-                }
+        function flipLeaf(leafId) {
+            const leafNum = parseInt(leafId.replace('leaf', ''));
+            // If clicking a leaf that is currently the active boundary, toggle it
+            if (leafNum === currentLeafIndex + 1) {
+                currentLeafIndex++;
+                updateBookState();
+            } else if (leafNum === currentLeafIndex) {
+                currentLeafIndex--;
+                updateBookState();
             }
         }
 
-        // Allow clicking left side of the book to go backward when page is flipped
-        document.getElementById('p2').addEventListener('click', function(e) {
-            // If user clicks the left half of a flipped page, flip it back
-            if (currentState['p2'] && e.offsetX < 150) {
-                e.stopPropagation();
-                turnPage('p2', false);
+        function turnNext() {
+            if (currentLeafIndex < totalLeaves) {
+                currentLeafIndex++;
+                updateBookState();
             }
-        });
+        }
 
-        document.getElementById('p3').addEventListener('click', function(e) {
-            if (currentState['p3'] && e.offsetX < 150) {
-                e.stopPropagation();
-                turnPage('p3', false);
+        function turnPrevious() {
+            if (currentLeafIndex > 0) {
+                currentLeafIndex--;
+                updateBookState();
             }
-        });
+        }
+
+        // Initialize view
+        updateBookState();
     </script>
 </body>
 </html>
