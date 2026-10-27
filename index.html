@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atelier Varia | Minimalist Lookbook</title>
+    <title>Lada | Lookbook</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -67,7 +67,7 @@
             border: 1px solid var(--border-color);
             border-radius: 6px;
             box-shadow: var(--paper-shadow);
-            padding: 45px 40px;
+            padding: 40px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -86,8 +86,8 @@
         .page-header {
             text-align: center;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .brand-subtitle {
@@ -95,12 +95,12 @@
             text-transform: uppercase;
             letter-spacing: 0.25em;
             color: var(--text-secondary);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .page-header h2 {
             font-family: var(--font-serif);
-            font-size: 2.1rem;
+            font-size: 2rem;
             font-weight: 400;
             color: var(--text-primary);
         }
@@ -110,6 +110,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             gap: 15px;
             font-size: 0.95rem;
             line-height: 1.65;
@@ -123,11 +124,48 @@
             font-weight: 500;
         }
 
+        /* Page 1 Specific Styling */
+        .page-1-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .page-1-content h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+            line-height: 1;
+        }
+
+        .firm-image {
+            width: 180px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .firm-address {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 0.02em;
+        }
+
         /* Product Showcase Grid Layout */
         .item-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
+            width: 100%;
             margin-top: 5px;
         }
 
@@ -243,7 +281,7 @@
                 </div>
                 <div class="page-footer">
                     <span>Page 4 of 4</span>
-                    <span>Atelier Varia</span>
+                    <span>Lada</span>
                 </div>
                 <div class="click-hint">Restart Catalog ↺</div>
             </div>
@@ -271,7 +309,7 @@
                 </div>
                 <div class="page-footer">
                     <span>Page 3 of 4</span>
-                    <span>Atelier Varia</span>
+                    <span>Lada</span>
                 </div>
                 <div class="click-hint">Next Page →</div>
             </div>
@@ -306,31 +344,18 @@
                 </div>
                 <div class="page-footer">
                     <span>Page 2 of 4</span>
-                    <span>Atelier Varia</span>
+                    <span>Lada</span>
                 </div>
                 <div class="click-hint">Next Page →</div>
             </div>
 
             <!-- PAGE 1 (Cover / First Page) -->
             <div class="catalog-page" id="page-1" style="z-index: 4;">
-                <div class="page-header" style="border: none; padding-top: 30px;">
-                    <div class="brand-subtitle">Placeholder Lookbook</div>
-                    <h1 style="font-family: var(--font-serif); font-size: 2.6rem; font-weight: 400; margin-top: 10px;">Atelier Varia</h1>
-                </div>
-                <div class="page-body">
-                    <p>A sophisticated placeholder experience ready for your upcoming fashion collection.</p>
-                    <div class="item-grid" style="margin-top: 10px;">
-                        <div class="item-slot">
-                            <span class="icon">🧥</span>
-                            <h4>Classic Blazer</h4>
-                            <span>Slot 01</span>
-                        </div>
-                        <div class="item-slot">
-                            <span class="icon">👔</span>
-                            <h4>Linen Shirt</h4>
-                            <span>Slot 02</span>
-                        </div>
-                    </div>
+                <div class="page-1-content">
+                    <div class="brand-subtitle">Established Collection</div>
+                    <h1>Lada</h1>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnNmaDMJcAqXC2yOM9An739_li4juVVn6hm6QlM9F8WA&s=10" alt="Lada Fashion" class="firm-image">
+                    <div class="firm-address">Najdete nás na adrese Hořovice 123</div>
                 </div>
                 <div class="page-footer">
                     <span>Est. 2026</span>
@@ -350,18 +375,16 @@
     </div>
 
     <script>
-        let currentPageIndex = 0; // 0 = Page 1 on top, 3 = Page 4 on top
+        let currentPageIndex = 0;
         const totalPages = 4;
 
         function updateCatalog() {
             for (let i = 1; i <= totalPages; i++) {
                 const page = document.getElementById(`page-${i}`);
                 if (i <= currentPageIndex) {
-                    // Flipped backwards behind the stack
                     page.classList.add('flipping');
-                    page.style.zIndex = i; // lower stack order
+                    page.style.zIndex = i;
                 } else {
-                    // Resting on top stack view
                     page.classList.remove('flipping');
                     page.style.zIndex = totalPages - i + 1;
                 }
@@ -373,7 +396,6 @@
             if (currentPageIndex < totalPages - 1) {
                 currentPageIndex++;
             } else {
-                // Reset back to start smoothly when hitting the end
                 currentPageIndex = 0;
             }
             updateCatalog();
