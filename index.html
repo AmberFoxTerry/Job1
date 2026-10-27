@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atelier Varia | Placeholder Collection</title>
+    <title>Atelier Varia | Interactive Lookbook</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7f5f0;
-            --paper-color: #ffffff;
-            --paper-shadow: 0 20px 40px rgba(44, 40, 37, 0.08), 0 1px 3px rgba(44, 40, 37, 0.04);
+            --bg-color: #262421;
+            --leather-spine: #1a1816;
+            --paper-color: #fcf9f2;
+            --paper-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05), 0 25px 50px rgba(0, 0, 0, 0.4);
             --text-primary: #2c2825;
             --text-secondary: #736b63;
             --accent: #9a7b5e;
-            --accent-hover: #7e634a;
-            --border-color: #e6e2d8;
+            --border-color: #e2ded4;
             --font-serif: 'Cormorant Garamond', serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
         }
@@ -36,380 +36,449 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden;
-            padding: 20px;
+            overflow: hidden;
+            perspective: 2000px;
         }
 
-        /* Top Bar & Secret Note */
-        .top-banner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: var(--text-primary);
-            color: var(--bg-color);
-            text-align: center;
-            padding: 10px;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            font-weight: 300;
-        }
-
-        /* Book Container */
-        .book-wrapper {
-            margin-top: 40px;
-            width: 100%;
-            max-width: 900px;
+        .scene {
+            width: 1000px;
+            height: 600px;
+            position: relative;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
         }
 
-        .book {
-            width: 100%;
-            background: var(--paper-color);
-            border-radius: 8px;
+        /* The Hard Book Cover / Backing */
+        .book-binding {
+            width: 920px;
+            height: 560px;
+            background: var(--leather-spine);
+            border-radius: 6px;
             box-shadow: var(--paper-shadow);
-            border: 1px solid var(--border-color);
-            min-height: 560px;
-            padding: 50px 60px;
             position: relative;
+            display: flex;
+        }
+
+        /* Center Binding Shadow */
+        .book-binding::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, rgba(0,0,0,0.15), rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.15));
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Book Pages Stack Container */
+        .book {
+            position: absolute;
+            width: 900px;
+            height: 540px;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            transform-style: preserve-3d;
+        }
+
+        /* Individual Page Spread Structure */
+        .page {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+            transform-style: preserve-3d;
+            transform-origin: left center;
+            transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+        }
+
+        .page.left-side {
+            left: 0;
+            transform-origin: right center;
+            z-index: 1;
+        }
+
+        .page.right-side {
+            left: 50%;
+            transform-origin: left center;
+            z-index: 2;
+        }
+
+        /* Flipping Animation State */
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Page Face Layout */
+        .page-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: var(--paper-color);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            padding: 45px 50px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
         }
+
+        .page-face.front {
+            z-index: 2;
+        }
+
+        .page-face.back {
+            transform: rotateY(180deg);
+            background-color: #f7f3ea; /* Slightly aged look for back pages */
+            z-index: 1;
+        }
+
+        /* Specific Page Positioning Fixes */
+        #p1 { z-index: 3; }
+        #p2 { z-index: 2; }
+        #p3 { z-index: 1; }
 
         /* Page Content Styles */
-        .page {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .page.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Page Headers */
         .page-header {
             text-align: center;
-            margin-bottom: 35px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
 
         .brand-subtitle {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.25em;
             color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-
-        .page-header h1 {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            font-weight: 400;
-            letter-spacing: 0.02em;
-            color: var(--text-primary);
-        }
-
-        /* Page 1: Welcome */
-        .welcome-body {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .welcome-body p {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-            font-weight: 300;
-        }
-
-        .welcome-body p strong {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        /* Page 2: Product Placeholders */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            flex-grow: 1;
-        }
-
-        .item-card {
-            border: 1px dashed var(--border-color);
-            border-radius: 6px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #faf9f6;
-            text-align: center;
-            min-height: 220px;
-            transition: border-color 0.2s ease;
-        }
-
-        .item-card:hover {
-            border-color: var(--accent);
-        }
-
-        .item-icon {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-            color: var(--accent);
-        }
-
-        .item-title {
-            font-size: 0.95rem;
-            font-weight: 500;
             margin-bottom: 6px;
         }
 
-        .item-desc {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            font-style: italic;
+        .page-header h2 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--text-primary);
         }
 
-        /* Page 3: Contact & Info */
-        .info-layout {
+        .page-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 15px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-weight: 300;
+            text-align: center;
+        }
+
+        .page-body strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Product Grid on Page 2 Back */
+        .mini-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            flex-grow: 1;
-            align-items: center;
+            gap: 12px;
+            margin-top: 5px;
         }
 
-        .info-block h3 {
-            font-family: var(--font-serif);
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            font-weight: 400;
+        .mini-card {
+            border: 1px dashed var(--border-color);
+            background: #faf8f2;
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
         }
 
-        .info-block p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 15px;
-            font-weight: 300;
+        .mini-card span {
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 4px;
         }
 
-        .placeholder-box {
-            background: #faf9f6;
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 6px;
+        .mini-card h4 {
             font-size: 0.85rem;
-            color: var(--text-secondary);
+            font-weight: 500;
+            color: var(--text-primary);
         }
 
-        /* Navigation Footer / Controls */
-        .book-footer {
+        .page-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 30px;
-            padding-top: 20px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
             border-top: 1px solid var(--border-color);
+            padding-top: 15px;
         }
 
-        .nav-btn {
-            background: transparent;
-            border: 1px solid var(--text-primary);
-            color: var(--text-primary);
-            padding: 10px 24px;
-            border-radius: 4px;
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            letter-spacing: 0.05s;
-            cursor: pointer;
-            transition: all 0.2s ease;
+        /* Click Hints on Sides */
+        .click-hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
-        .nav-btn:hover:not(:disabled) {
-            background: var(--text-primary);
-            color: var(--bg-color);
+        .right-side:hover .click-hint.next-hint,
+        .left-side.flipped:hover .click-hint.prev-hint {
+            opacity: 0.8;
         }
 
-        .nav-btn:disabled {
-            opacity: 0.25;
-            cursor: not-allowed;
-            border-color: var(--border-color);
-        }
+        .next-hint { right: 30px; }
+        .prev-hint { left: 30px; }
 
-        .page-indicators {
+        /* External Navigation Bar */
+        .nav-bar {
+            margin-top: 25px;
             display: flex;
-            gap: 8px;
+            gap: 15px;
             align-items: center;
         }
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--border-color);
-            transition: background 0.3s ease;
-        }
-
-        .dot.active {
-            background: var(--accent);
-        }
-
-        .page-number-label {
+        .control-btn {
+            background: #36332f;
+            border: 1px solid #4d4843;
+            color: #dcd6cd;
+            padding: 8px 20px;
+            border-radius: 4px;
             font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-variant-numeric: tabular-nums;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
         }
 
-        @media (max-width: 768px) {
-            .book {
-                padding: 30px 20px;
-                min-height: 500px;
-            }
-            .grid-container {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            .info-layout {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
+        .control-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .instruction-tag {
+            color: #8c8378;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
         }
     </style>
 </head>
 <body>
 
-    <div class="top-banner">
-        ✦ Placeholder Edition — Timeless Collection for Every Generation ✦
+    <div class="scene">
+        <div class="book-binding">
+            <div class="book" id="book">
+                
+                <!-- PAGE 1 (Cover / Welcome Front) -->
+                <div class="page right-side" id="p1" onclick="turnPage('p1', true)">
+                    <div class="page-face front">
+                        <div class="page-header">
+                            <div class="brand-subtitle">Placeholder Lookbook</div>
+                            <h2>Atelier Varia</h2>
+                        </div>
+                        <div class="page-body">
+                            <p>Welcome to the digital lookbook canvas. Crafted to accommodate every generation from 18 to 75 with timeless style.</p>
+                            <p><strong>Click anywhere on the right edge or use the buttons below to flip through the pages.</strong></p>
+                        </div>
+                        <div class="page-footer">
+                            <span>Est. 2026</span>
+                            <span>Page 1</span>
+                        </div>
+                        <div class="click-hint next-hint">Flip →</div>
+                    </div>
+                    <div class="page-face back">
+                        <div class="page-header">
+                            <div class="brand-subtitle">Curated Collection</div>
+                            <h2>Essentials & Outerwear</h2>
+                        </div>
+                        <div class="page-body">
+                            <p>A sneak peek at placeholder silhouettes ready for inventory integration.</p>
+                            <div class="mini-grid">
+                                <div class="mini-card">
+                                    <span>🧥</span>
+                                    <h4>Coat Placeholder</h4>
+                                </div>
+                                <div class="mini-card">
+                                    <span>🧶</span>
+                                    <h4>Knit Placeholder</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-footer">
+                            <span>Page 2</span>
+                            <span>Atelier Varia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 2 (Catalog / Details) -->
+                <div class="page right-side" id="p2" onclick="turnPage('p2', true)">
+                    <div class="page-face front">
+                        <div class="page-header">
+                            <div class="brand-subtitle">Curated Collection</div>
+                            <h2>Essentials & Outerwear</h2>
+                        </div>
+                        <div class="page-body">
+                            <p>A sneak peek at placeholder silhouettes ready for inventory integration.</p>
+                            <div class="mini-grid">
+                                <div class="mini-card">
+                                    <span>🧥</span>
+                                    <h4>Coat Placeholder</h4>
+                                </div>
+                                <div class="mini-card">
+                                    <span>🧶</span>
+                                    <h4>Knit Placeholder</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-footer">
+                            <span>Page 2</span>
+                            <span>Atelier Varia</span>
+                        </div>
+                        <div class="click-hint next-hint">Flip →</div>
+                    </div>
+                    <div class="page-face back">
+                        <div class="page-header">
+                            <div class="brand-subtitle">Information & Vision</div>
+                            <h2>Heritage & Contact</h2>
+                        </div>
+                        <div class="page-body">
+                            <p>Designed for seamless product drops by the boutique owner. Clean, accessible, and versatile.</p>
+                            <p><strong>Drop real items here upon activation.</strong></p>
+                        </div>
+                        <div class="page-footer">
+                            <span>Page 3</span>
+                            <span>Atelier Varia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 3 (Back Page / Contact) -->
+                <div class="page right-side" id="p3" onclick="turnPage('p3', true)">
+                    <div class="page-face front">
+                        <div class="page-header">
+                            <div class="brand-subtitle">Information & Vision</div>
+                            <h2>Heritage & Contact</h2>
+                        </div>
+                        <div class="page-body">
+                            <p>Designed for seamless product drops by the boutique owner. Clean, accessible, and versatile.</p>
+                            <p><strong>Drop real items here upon activation.</strong></p>
+                        </div>
+                        <div class="page-footer">
+                            <span>Page 3</span>
+                            <span>Atelier Varia</span>
+                        </div>
+                        <div class="click-hint next-hint">End →</div>
+                    </div>
+                    <div class="page-face back">
+                        <!-- Empty Back Cover Filler -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <div class="book-wrapper">
-        <div class="book" id="bookContainer">
-            
-            <!-- PAGE 1: WELCOME & VISION -->
-            <div class="page active" id="page-1">
-                <div class="page-header">
-                    <div class="brand-subtitle">Established Placeholder</div>
-                    <h1>Atelier Varia</h1>
-                </div>
-                <div class="welcome-body">
-                    <p>Welcome to the foundational canvas of our upcoming collection. Designed with grace and versatility in mind, bridging timeless classic comfort with modern elegance for ages 18 to 75.</p>
-                    <p><strong>Instructions for the Boss:</strong> This framework is fully prepared. Simply drop your final apparel pieces, photography, and pricing into these slots whenever you are ready to launch.</p>
-                </div>
-            </div>
-
-            <!-- PAGE 2: PRODUCT PLACEHOLDERS -->
-            <div class="page" id="page-2">
-                <div class="page-header">
-                    <div class="brand-subtitle">Curated Catalog</div>
-                    <h1>Featured Silhouettes</h1>
-                </div>
-                <div class="grid-container">
-                    <div class="item-card">
-                        <div class="item-icon">🧥</div>
-                        <div class="item-title">Placeholder Item I</div>
-                        <div class="item-desc">Outerwear / Tailoring</div>
-                    </div>
-                    <div class="item-card">
-                        <div class="item-icon">🧶</div>
-                        <div class="item-title">Placeholder Item II</div>
-                        <div class="item-desc">Essential Knitwear</div>
-                    </div>
-                    <div class="item-card">
-                        <div class="item-icon">👔</div>
-                        <div class="item-title">Placeholder Item III</div>
-                        <div class="item-desc">Classic Essentials</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PAGE 3: ABOUT & CONTACT -->
-            <div class="page" id="page-3">
-                <div class="page-header">
-                    <div class="brand-subtitle">Information</div>
-                    <h1>Brand Heritage & Vision</h1>
-                </div>
-                <div class="info-layout">
-                    <div class="info-block">
-                        <h3>Crafted with Care</h3>
-                        <p>Designed to appeal across generations, ensuring exceptional comfort, premium fabrics, and understated style that never goes out of fashion.</p>
-                        <p>Ready for inventory integration and live store activation.</p>
-                    </div>
-                    <div class="placeholder-box">
-                        <strong>Contact / Location Slot:</strong><br><br>
-                        • Showroom Address Placeholder<br>
-                        • Customer Support Email<br>
-                        • Social Links & Updates
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- BOOK CONTROLS -->
-        <div class="book-footer">
-            <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous Page</button>
-            <div class="page-indicators">
-                <div class="dot active" id="dot-1"></div>
-                <div class="dot" id="dot-2"></div>
-                <div class="dot" id="dot-3"></div>
-                <span class="page-number-label" id="pageNumberLabel" style="margin-left: 12px;">Page 1 of 3</span>
-            </div>
-            <button class="nav-btn" id="nextBtn" onclick="changePage(1)">Next Page →</button>
-        </div>
+    <!-- External Controls for ease of use -->
+    <div class="nav-bar">
+        <button class="control-btn" onclick="flipPrevious()">← Previous Page</button>
+        <span class="instruction-tag">Click the page corners or buttons to turn</span>
+        <button class="control-btn" onclick="flipNext()">Next Page →</button>
     </div>
 
     <script>
-        let currentPage = 1;
-        const totalPages = 3;
+        let pageOrder = ['p1', 'p2', 'p3'];
+        let currentState = {
+            p1: false, // false = right side, true = flipped left
+            p2: false,
+            p3: false
+        };
 
-        function changePage(direction) {
-            const newPage = currentPage + direction;
-            if (newPage < 1 || newPage > totalPages) return;
+        function updateZIndices() {
+            // Adjust stacking order dynamically so flipping pages look physically correct
+            if (currentState.p3) {
+                document.getElementById('p3').style.zIndex = 10;
+            } else {
+                document.getElementById('p3').style.zIndex = 1;
+            }
 
-            // Hide current page
-            document.getElementById(`page-${currentPage}`).classList.remove('active');
-            document.getElementById(`dot-${currentPage}`).classList.remove('active');
+            if (currentState.p2) {
+                document.getElementById('p2').style.zIndex = 11;
+            } else {
+                document.getElementById('p2').style.zIndex = 2;
+            }
 
-            // Update current page pointer
-            currentPage = newPage;
-
-            // Show new page
-            document.getElementById(`page-${currentPage}`).classList.add('active');
-            document.getElementById(`dot-${currentPage}`).classList.add('active');
-
-            // Update button states
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = currentPage === totalPages;
-
-            // Update label
-            document.getElementById('pageNumberLabel').innerText = `Page ${currentPage} of ${totalPages}`;
+            if (currentState.p1) {
+                document.getElementById('p1').style.zIndex = 12;
+            } else {
+                document.getElementById('p1').style.zIndex = 3;
+            }
         }
+
+        function turnPage(pageId, forward) {
+            if (forward && !currentState[pageId]) {
+                currentState[pageId] = true;
+                document.getElementById(pageId).classList.add('flipped');
+            } else if (!forward && currentState[pageId]) {
+                currentState[pageId] = false;
+                document.getElementById(pageId).classList.remove('flipped');
+            }
+            updateZIndices();
+        }
+
+        function flipNext() {
+            // Find the first unflipped page from left to right
+            for (let i = 0; i < pageOrder.length; i++) {
+                let id = pageOrder[i];
+                if (!currentState[id]) {
+                    turnPage(id, true);
+                    break;
+                }
+            }
+        }
+
+        function flipPrevious() {
+            // Find the last flipped page from right to left
+            for (let i = pageOrder.length - 1; i >= 0; i--) {
+                let id = pageOrder[i];
+                if (currentState[id]) {
+                    turnPage(id, false);
+                    break;
+                }
+            }
+        }
+
+        // Allow clicking left side of the book to go backward when page is flipped
+        document.getElementById('p2').addEventListener('click', function(e) {
+            // If user clicks the left half of a flipped page, flip it back
+            if (currentState['p2'] && e.offsetX < 150) {
+                e.stopPropagation();
+                turnPage('p2', false);
+            }
+        });
+
+        document.getElementById('p3').addEventListener('click', function(e) {
+            if (currentState['p3'] && e.offsetX < 150) {
+                e.stopPropagation();
+                turnPage('p3', false);
+            }
+        });
     </script>
 </body>
 </html>
