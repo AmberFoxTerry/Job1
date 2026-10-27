@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,14 +88,6 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 12px;
             margin-bottom: 15px;
-        }
-
-        .brand-subtitle {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
         }
 
         .page-header h2 {
@@ -195,15 +187,9 @@
             margin-bottom: 3px;
         }
 
-        .item-slot span {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            font-style: italic;
-        }
-
         .page-footer {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             font-size: 0.75rem;
             color: var(--text-secondary);
@@ -269,99 +255,81 @@
     <div class="scene">
         <div class="catalog-container" id="catalogContainer" onclick="nextPage()">
             
-            <!-- PAGE 4 (Final Page -> clicking resets back to 1) -->
+            <!-- PAGE 4 -->
             <div class="catalog-page" id="page-4" style="z-index: 1;">
                 <div class="page-header">
-                    <div class="brand-subtitle">Information & Heritage</div>
-                    <h2>Crafted for All Generations</h2>
+                    <h2>Informace</h2>
                 </div>
                 <div class="page-body">
-                    <p>Designed thoughtfully to appeal seamlessly from 18 to 75. Combining timeless silhouettes with everyday luxury.</p>
-                    <p><strong>Ready for your real inventory drop.</strong></p>
+                    <p>Připraveno pro vaše budoucí kousky oblečení.</p>
                 </div>
                 <div class="page-footer">
-                    <span>Page 4 of 4</span>
                     <span>Lada</span>
                 </div>
-                <div class="click-hint">Restart Catalog ↺</div>
+                <div class="click-hint">Restartovat ↺</div>
             </div>
 
             <!-- PAGE 3 -->
             <div class="catalog-page" id="page-3" style="z-index: 2;">
                 <div class="page-header">
-                    <div class="brand-subtitle">Curated Catalog</div>
-                    <h2>Accessories & Details</h2>
+                    <h2>Kolekce</h2>
                 </div>
                 <div class="item-grid">
                     <div class="item-slot">
                         <span class="icon">👜</span>
-                        <h4>Leather Tote</h4>
-                        <span>Slot 07</span>
+                        <h4>Položka 07</h4>
                     </div>
                     <div class="item-slot">
                         <span class="icon">🧢</span>
-                        <h4>Classic Cap</h4>
-                        <span>Slot 08</span>
+                        <h4>Položka 08</h4>
                     </div>
                 </div>
-                <div class="page-body" style="justify-content: flex-start; padding-top: 15px;">
-                    <p style="font-size: 0.85rem; font-style: italic;">Clean hardware and refined textures designed to complete every silhouette effortlessly.</p>
-                </div>
                 <div class="page-footer">
-                    <span>Page 3 of 4</span>
                     <span>Lada</span>
                 </div>
-                <div class="click-hint">Next Page →</div>
+                <div class="click-hint">Další strana →</div>
             </div>
 
             <!-- PAGE 2 -->
             <div class="catalog-page" id="page-2" style="z-index: 3;">
                 <div class="page-header">
-                    <div class="brand-subtitle">Curated Catalog</div>
-                    <h2>Essentials & Knitwear</h2>
+                    <h2>Kolekce</h2>
                 </div>
                 <div class="item-grid">
                     <div class="item-slot">
                         <span class="icon">🧶</span>
-                        <h4>Cashmere Knit</h4>
-                        <span>Slot 03</span>
+                        <h4>Položka 03</h4>
                     </div>
                     <div class="item-slot">
                         <span class="icon">🧣</span>
-                        <h4>Wool Scarf</h4>
-                        <span>Slot 04</span>
+                        <h4>Položka 04</h4>
                     </div>
                     <div class="item-slot">
                         <span class="icon">👖</span>
-                        <h4>Tailored Trousers</h4>
-                        <span>Slot 05</span>
+                        <h4>Položka 05</h4>
                     </div>
                     <div class="item-slot">
                         <span class="icon">🧥</span>
-                        <h4>Overcoat</h4>
-                        <span>Slot 06</span>
+                        <h4>Položka 06</h4>
                     </div>
                 </div>
                 <div class="page-footer">
-                    <span>Page 2 of 4</span>
                     <span>Lada</span>
                 </div>
-                <div class="click-hint">Next Page →</div>
+                <div class="click-hint">Další strana →</div>
             </div>
 
-            <!-- PAGE 1 (Cover / First Page) -->
+            <!-- PAGE 1 -->
             <div class="catalog-page" id="page-1" style="z-index: 4;">
                 <div class="page-1-content">
-                    <div class="brand-subtitle">Established Collection</div>
                     <h1>Lada</h1>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnNmaDMJcAqXC2yOM9An739_li4juVVn6hm6QlM9F8WA&s=10" alt="Lada Fashion" class="firm-image">
                     <div class="firm-address">Najdete nás na adrese Hořovice 123</div>
                 </div>
                 <div class="page-footer">
-                    <span>Est. 2026</span>
-                    <span>Page 1 of 4</span>
+                    <span>Lada</span>
                 </div>
-                <div class="click-hint">Open / Next →</div>
+                <div class="click-hint">Otevřít →</div>
             </div>
 
         </div>
@@ -369,9 +337,9 @@
 
     <!-- External Controls -->
     <div class="nav-bar">
-        <button class="control-btn" onclick="prevPage()">← Previous</button>
-        <span class="page-counter" id="pageCounter">Page 1 of 4</span>
-        <button class="control-btn" onclick="nextPage()">Next →</button>
+        <button class="control-btn" onclick="prevPage()">Předchozí strana</button>
+        <span class="page-counter" id="pageCounter">Strana 1/4</span>
+        <button class="control-btn" onclick="nextPage()">Další strana</button>
     </div>
 
     <script>
@@ -389,7 +357,7 @@
                     page.style.zIndex = totalPages - i + 1;
                 }
             }
-            document.getElementById('pageCounter').innerText = `Page ${currentPageIndex + 1} of ${totalPages}`;
+            document.getElementById('pageCounter').innerText = `Strana ${currentPageIndex + 1}/${totalPages}`;
         }
 
         function nextPage() {
