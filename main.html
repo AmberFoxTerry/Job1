@@ -27,7 +27,7 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
-            font-size: 18px; /* Larger base font for crystal clear readability across all ages */
+            font-size: 18px;
         }
 
         header {
@@ -103,7 +103,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Card styling */
         .info-card, .contact-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -168,7 +167,6 @@
             color: white;
         }
 
-        /* Catalog grid */
         .catalog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -203,7 +201,6 @@
             color: var(--accent);
         }
 
-        /* Responsive */
         @media(max-width: 650px) {
             .nav-container {
                 flex-direction: column;
@@ -236,7 +233,6 @@
     </header>
 
     <main>
-        <!-- O NÁS -->
         <div id="onas" class="tab-content active">
             <div class="info-card">
                 <h2>O nás</h2>
@@ -263,7 +259,7 @@
                 <div class="section-block">
                     <div class="section-title">Kde nás najdete?</div>
                     <div class="section-body">
-                        <p>Na adrese 9. května 175, 268 01 Hořovice</p>
+                        <p>9. května 175, 268 01 Hořovice</p>
                         <a href="https://mapy.cz/zakladni?q=9.kv%C4%9Btna%20175%2C%2026801%20Ho%C5%99ovice" target="_blank" class="map-btn">
                             🗺️ Otevřít na Mapy.cz
                         </a>
@@ -272,7 +268,6 @@
             </div>
         </div>
 
-        <!-- NOVE NA SKLADĚ -->
         <div id="katalog" class="tab-content">
             <div style="margin-bottom: 24px;">
                 <h2>Nove na skladě</h2>
@@ -313,7 +308,6 @@
             </div>
         </div>
 
-        <!-- KONTAKT -->
         <div id="kontakt" class="tab-content">
             <div class="contact-card">
                 <h2>Kontakt</h2>
@@ -339,15 +333,12 @@
 
     <script>
         function switchTab(tabId, btnElement) {
-            // Hide all tabs
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
 
-            // Remove active class from all buttons
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
 
-            // Show target tab and activate button
             document.getElementById(tabId).classList.add('active');
             btnElement.classList.add('active');
         }
