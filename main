@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lada - Oblečení, župany a plavky</title>
+    <style>
+        :root {
+            --primary: #4a5d4e;
+            --primary-hover: #3b4b3e;
+            --bg-color: #fcfbf9;
+            --card-bg: #ffffff;
+            --text-main: #2c302e;
+            --text-muted: #5a635e;
+            --border-color: #e2e5e0;
+            --accent: #8c6d53;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 18px; /* Larger base font for crystal clear readability across all ages */
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+        }
+
+        .brand {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            background: none;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--primary);
+            background-color: #f2f5f1;
+        }
+
+        .nav-btn.active {
+            color: white;
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card styling */
+        .info-card, .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 36px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        h2 {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .section-block {
+            margin-bottom: 28px;
+        }
+
+        .section-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .section-body {
+            font-size: 20px;
+            color: var(--text-main);
+            padding-left: 4px;
+        }
+
+        .section-body ul {
+            list-style-type: none;
+        }
+
+        .section-body li {
+            margin-bottom: 8px;
+        }
+
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            background-color: #eef2ed;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .map-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Catalog grid */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+        }
+
+        .product-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .product-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media(max-width: 650px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 16px;
+            }
+            nav {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                flex: 1;
+                text-align: center;
+                padding: 10px 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="brand">Lada</div>
+            <nav>
+                <button class="nav-btn active" onclick="switchTab('onas', this)">O nás</button>
+                <button class="nav-btn" onclick="switchTab('katalog', this)">Nove na skladě</button>
+                <button class="nav-btn" onclick="switchTab('kontakt', this)">Kontakt</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- O NÁS -->
+        <div id="onas" class="tab-content active">
+            <div class="info-card">
+                <h2>O nás</h2>
+                
+                <div class="section-block">
+                    <div class="section-title">Čím se zabíváme?</div>
+                    <div class="section-body">
+                        <ul>
+                            <li>Prodáváme oblečení, župany a plavky</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <div class="section-title">Kdy máme otevřeno?</div>
+                    <div class="section-body">
+                        <ul>
+                            <li>Pondělí až pátek: 9:00 - 12:00, 13:00 - 17:00</li>
+                            <li>Sobota: 9:00 - 11:00</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <div class="section-title">Kde nás najdete?</div>
+                    <div class="section-body">
+                        <p>Na adrese 9. května 175, 268 01 Hořovice</p>
+                        <a href="https://mapy.cz/zakladni?q=9.kv%C4%9Btna%20175%2C%2026801%20Ho%C5%99ovice" target="_blank" class="map-btn">
+                            🗺️ Otevřít na Mapy.cz
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOVE NA SKLADĚ -->
+        <div id="katalog" class="tab-content">
+            <div style="margin-bottom: 24px;">
+                <h2>Nove na skladě</h2>
+            </div>
+            <div class="catalog-grid">
+                <div class="product-card">
+                    <div class="product-name">Hřejivý župan</div>
+                    <div class="product-price">890 Kč</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-name">Dámské plavky</div>
+                    <div class="product-price">650 Kč</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-name">Pletený svetr</div>
+                    <div class="product-price">990 Kč</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-name">Bavlněné tričko</div>
+                    <div class="product-price">390 Kč</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-name">Pohodlné legíny</div>
+                    <div class="product-price">490 Kč</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-name">Luxusní župan</div>
+                    <div class="product-price">1 290 Kč</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-name">Pánské plavky</div>
+                    <div class="product-price">550 Kč</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-name">Letní šaty</div>
+                    <div class="product-price">850 Kč</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KONTAKT -->
+        <div id="kontakt" class="tab-content">
+            <div class="contact-card">
+                <h2>Kontakt</h2>
+                
+                <div class="section-block">
+                    <div class="section-title">Chcete nás kontaktovat?</div>
+                    <div class="section-body">
+                        <ul>
+                            <li><strong>Telefon:</strong> +420 313 101 600</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <div class="section-title">Adresa</div>
+                    <div class="section-body">
+                        <p>9. května 175, 268 01 Hořovice</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function switchTab(tabId, btnElement) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show target tab and activate button
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+    </script>
+</body>
+</html>
