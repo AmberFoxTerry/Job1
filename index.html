@@ -78,7 +78,7 @@
             -webkit-backface-visibility: hidden;
             transform-origin: left center;
             transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
-            pointer-events: none; /* Disabled clicking to flip */
+            pointer-events: none;
         }
 
         .catalog-page.flipping {
@@ -134,7 +134,6 @@
             line-height: 1;
         }
 
-        /* Image spanning with 10px margins inside page padding (Page width 480px - 70px padding = 410px container space -> 390px width image) */
         .firm-image {
             width: 390px;
             height: 180px;
@@ -179,6 +178,36 @@
             font-weight: 500;
             color: var(--text-primary);
             margin-bottom: 3px;
+        }
+
+        /* Page 3 Gray Empty Placeholders */
+        .item-slot.empty-slot {
+            background: #e9e5dc;
+            border: 1px dashed #c8c2b4;
+            color: #8c8376;
+        }
+
+        .item-slot.empty-slot h4 {
+            color: #736b5e;
+            font-style: italic;
+        }
+
+        /* Page 4 Contact Info Styling */
+        .contact-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .contact-content strong {
+            font-weight: 500;
+            color: var(--accent);
         }
 
         /* Page Footer for Book Page Numbers */
@@ -236,10 +265,11 @@
             <!-- PAGE 4 -->
             <div class="catalog-page" id="page-4" style="z-index: 1;">
                 <div class="page-header">
-                    <h2>Informace</h2>
+                    <h2>Kontakt</h2>
                 </div>
-                <div class="page-body">
-                    <p>Připraveno pro vaše budoucí kousky oblečení.</p>
+                <div class="contact-content">
+                    <p><strong>Telefon:</strong> +420 313 101 600</p>
+                    <p><strong>Pobočka:</strong> Hořovice 9.května 175</p>
                 </div>
                 <div class="page-footer">
                     <span>4</span>
@@ -249,16 +279,24 @@
             <!-- PAGE 3 -->
             <div class="catalog-page" id="page-3" style="z-index: 2;">
                 <div class="page-header">
-                    <h2>Kolekce</h2>
+                    <h2>Nově na skladě</h2>
                 </div>
                 <div class="item-grid">
-                    <div class="item-slot">
-                        <span class="icon">👜</span>
-                        <h4>Položka 07</h4>
+                    <div class="item-slot empty-slot">
+                        <span class="icon">📦</span>
+                        <h4>Prázné :O</h4>
                     </div>
-                    <div class="item-slot">
-                        <span class="icon">🧢</span>
-                        <h4>Položka 08</h4>
+                    <div class="item-slot empty-slot">
+                        <span class="icon">📦</span>
+                        <h4>Prázné :O</h4>
+                    </div>
+                    <div class="item-slot empty-slot">
+                        <span class="icon">📦</span>
+                        <h4>Prázné :O</h4>
+                    </div>
+                    <div class="item-slot empty-slot">
+                        <span class="icon">📦</span>
+                        <h4>Prázné :O</h4>
                     </div>
                 </div>
                 <div class="page-footer">
@@ -269,9 +307,17 @@
             <!-- PAGE 2 -->
             <div class="catalog-page" id="page-2" style="z-index: 3;">
                 <div class="page-header">
-                    <h2>Kolekce</h2>
+                    <h2>Nově na skladě</h2>
                 </div>
                 <div class="item-grid">
+                    <div class="item-slot">
+                        <span class="icon">🧥</span>
+                        <h4>Položka 01</h4>
+                    </div>
+                    <div class="item-slot">
+                        <span class="icon">👔</span>
+                        <h4>Položka 02</h4>
+                    </div>
                     <div class="item-slot">
                         <span class="icon">🧶</span>
                         <h4>Položka 03</h4>
@@ -279,14 +325,6 @@
                     <div class="item-slot">
                         <span class="icon">🧣</span>
                         <h4>Položka 04</h4>
-                    </div>
-                    <div class="item-slot">
-                        <span class="icon">👖</span>
-                        <h4>Položka 05</h4>
-                    </div>
-                    <div class="item-slot">
-                        <span class="icon">🧥</span>
-                        <h4>Položka 06</h4>
                     </div>
                 </div>
                 <div class="page-footer">
@@ -299,7 +337,7 @@
                 <div class="page-1-content">
                     <h1>Lada</h1>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnNmaDMJcAqXC2yOM9An739_li4juVVn6hm6QlM9F8WA&s=10" alt="Lada Fashion" class="firm-image">
-                    <div class="firm-address">Najdete nás na adrese Hořovice 123</div>
+                    <div class="firm-address">Najdete nás na adrese Hořovice 9.května 175</div>
                 </div>
                 <div class="page-footer">
                     <span>1</span>
