@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier Varia | Placeholder Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f5f0;
+            --paper-color: #ffffff;
+            --paper-shadow: 0 20px 40px rgba(44, 40, 37, 0.08), 0 1px 3px rgba(44, 40, 37, 0.04);
+            --text-primary: #2c2825;
+            --text-secondary: #736b63;
+            --accent: #9a7b5e;
+            --accent-hover: #7e634a;
+            --border-color: #e6e2d8;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* Top Bar & Secret Note */
+        .top-banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--text-primary);
+            color: var(--bg-color);
+            text-align: center;
+            padding: 10px;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+        }
+
+        /* Book Container */
+        .book-wrapper {
+            margin-top: 40px;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .book {
+            width: 100%;
+            background: var(--paper-color);
+            border-radius: 8px;
+            box-shadow: var(--paper-shadow);
+            border: 1px solid var(--border-color);
+            min-height: 560px;
+            padding: 50px 60px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Page Content Styles */
+        .page {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Page Headers */
+        .page-header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            color: var(--text-primary);
+        }
+
+        /* Page 1: Welcome */
+        .welcome-body {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .welcome-body p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .welcome-body p strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Page 2: Product Placeholders */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .item-card {
+            border: 1px dashed var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #faf9f6;
+            text-align: center;
+            min-height: 220px;
+            transition: border-color 0.2s ease;
+        }
+
+        .item-card:hover {
+            border-color: var(--accent);
+        }
+
+        .item-icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .item-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .item-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Page 3: Contact & Info */
+        .info-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            flex-grow: 1;
+            align-items: center;
+        }
+
+        .info-block h3 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .info-block p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .placeholder-box {
+            background: #faf9f6;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Navigation Footer / Controls */
+        .book-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            letter-spacing: 0.05s;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--text-primary);
+            color: var(--bg-color);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+            border-color: var(--border-color);
+        }
+
+        .page-indicators {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-color);
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent);
+        }
+
+        .page-number-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        @media (max-width: 768px) {
+            .book {
+                padding: 30px 20px;
+                min-height: 500px;
+            }
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .info-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-banner">
+        ✦ Placeholder Edition — Timeless Collection for Every Generation ✦
+    </div>
+
+    <div class="book-wrapper">
+        <div class="book" id="bookContainer">
+            
+            <!-- PAGE 1: WELCOME & VISION -->
+            <div class="page active" id="page-1">
+                <div class="page-header">
+                    <div class="brand-subtitle">Established Placeholder</div>
+                    <h1>Atelier Varia</h1>
+                </div>
+                <div class="welcome-body">
+                    <p>Welcome to the foundational canvas of our upcoming collection. Designed with grace and versatility in mind, bridging timeless classic comfort with modern elegance for ages 18 to 75.</p>
+                    <p><strong>Instructions for the Boss:</strong> This framework is fully prepared. Simply drop your final apparel pieces, photography, and pricing into these slots whenever you are ready to launch.</p>
+                </div>
+            </div>
+
+            <!-- PAGE 2: PRODUCT PLACEHOLDERS -->
+            <div class="page" id="page-2">
+                <div class="page-header">
+                    <div class="brand-subtitle">Curated Catalog</div>
+                    <h1>Featured Silhouettes</h1>
+                </div>
+                <div class="grid-container">
+                    <div class="item-card">
+                        <div class="item-icon">🧥</div>
+                        <div class="item-title">Placeholder Item I</div>
+                        <div class="item-desc">Outerwear / Tailoring</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-icon">🧶</div>
+                        <div class="item-title">Placeholder Item II</div>
+                        <div class="item-desc">Essential Knitwear</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-icon">👔</div>
+                        <div class="item-title">Placeholder Item III</div>
+                        <div class="item-desc">Classic Essentials</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 3: ABOUT & CONTACT -->
+            <div class="page" id="page-3">
+                <div class="page-header">
+                    <div class="brand-subtitle">Information</div>
+                    <h1>Brand Heritage & Vision</h1>
+                </div>
+                <div class="info-layout">
+                    <div class="info-block">
+                        <h3>Crafted with Care</h3>
+                        <p>Designed to appeal across generations, ensuring exceptional comfort, premium fabrics, and understated style that never goes out of fashion.</p>
+                        <p>Ready for inventory integration and live store activation.</p>
+                    </div>
+                    <div class="placeholder-box">
+                        <strong>Contact / Location Slot:</strong><br><br>
+                        • Showroom Address Placeholder<br>
+                        • Customer Support Email<br>
+                        • Social Links & Updates
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOOK CONTROLS -->
+        <div class="book-footer">
+            <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous Page</button>
+            <div class="page-indicators">
+                <div class="dot active" id="dot-1"></div>
+                <div class="dot" id="dot-2"></div>
+                <div class="dot" id="dot-3"></div>
+                <span class="page-number-label" id="pageNumberLabel" style="margin-left: 12px;">Page 1 of 3</span>
+            </div>
+            <button class="nav-btn" id="nextBtn" onclick="changePage(1)">Next Page →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 3;
+
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage < 1 || newPage > totalPages) return;
+
+            // Hide current page
+            document.getElementById(`page-${currentPage}`).classList.remove('active');
+            document.getElementById(`dot-${currentPage}`).classList.remove('active');
+
+            // Update current page pointer
+            currentPage = newPage;
+
+            // Show new page
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+            document.getElementById(`dot-${currentPage}`).classList.add('active');
+
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+
+            // Update label
+            document.getElementById('pageNumberLabel').innerText = `Page ${currentPage} of ${totalPages}`;
+        }
+    </script>
+</body>
+</html>
