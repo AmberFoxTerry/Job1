@@ -3,402 +3,480 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lada | Lookbook</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Lada - Oblečení, župany a plavky</title>
     <style>
         :root {
-            --bg-color: #1e1b18;
-            --paper-color: #fcf9f2;
-            --paper-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), inset 0 0 30px rgba(139, 115, 85, 0.05);
-            --text-primary: #2c2825;
-            --text-secondary: #736b63;
-            --accent: #9a7b5e;
-            --border-color: #e2ded4;
-            --font-serif: 'Cormorant Garamond', serif;
-            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --primary: #4a5d4e;
+            --primary-hover: #3b4b3e;
+            --bg-color: #fcfbf9;
+            --card-bg: #ffffff;
+            --text-main: #2c302e;
+            --text-muted: #5a635e;
+            --border-color: #e2e5e0;
+            --accent: #8c6d53;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            perspective: 2500px;
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 18px;
         }
 
-        .scene {
-            width: 520px;
-            height: 600px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Book Spine/Cover Edge Effect */
-        .catalog-container {
-            width: 480px;
-            height: 540px;
-            position: relative;
-            transform-style: preserve-3d;
-            box-shadow: -8px 0 20px rgba(0,0,0,0.3);
-            border-radius: 4px 6px 6px 4px;
-        }
-
-        /* Individual Book Page Leaf */
-        .catalog-page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
             top: 0;
-            left: 0;
-            background-color: var(--paper-color);
-            border: 1px solid var(--border-color);
-            border-left: 3px solid #d4cebe; /* Simulates bound spine edge */
-            border-radius: 4px 6px 6px 4px;
-            box-shadow: var(--paper-shadow);
-            padding: 40px 35px 35px 35px;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transform-origin: left center;
-            transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
-            pointer-events: none;
-        }
-
-        .catalog-page.flipping {
-            transform: rotateY(-180deg);
-        }
-
-        /* Typography & Layout */
-        .page-header {
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-            margin-bottom: 15px;
-        }
-
-        .page-header h2 {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            font-weight: 400;
-            color: var(--text-primary);
-        }
-
-        .page-body {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            gap: 15px;
-            font-size: 0.95rem;
-            line-height: 1.65;
-            color: var(--text-secondary);
-            font-weight: 300;
-            text-align: center;
+            padding: 20px 24px;
         }
 
-        /* Page 1 Specific Styling */
-        .page-1-content {
+        .brand {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        nav {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            gap: 15px;
-            text-align: center;
-        }
-
-        .page-1-content h1 {
-            font-family: var(--font-serif);
-            font-size: 3.2rem;
-            font-weight: 400;
-            color: var(--text-primary);
-            letter-spacing: 0.05em;
-            line-height: 1;
-        }
-
-        .firm-image {
-            width: 390px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        }
-
-        .firm-address {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            font-weight: 300;
-            letter-spacing: 0.02em;
-        }
-
-        /* Product Showcase Grid Layout */
-        .item-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            width: 100%;
-            margin-top: 5px;
         }
 
-        .item-slot {
-            border: 1px dashed var(--border-color);
-            background: #faf8f2;
-            padding: 12px 10px;
-            border-radius: 6px;
-            text-align: center;
-        }
-
-        .item-slot .icon {
-            font-size: 1.3rem;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .item-slot h4 {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-        }
-
-        .item-slot .price {
-            font-size: 0.75rem;
-            color: var(--accent);
+        .nav-btn {
+            background: none;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            font-size: 18px;
             font-weight: 600;
-        }
-
-        /* Page 3 Gray Empty Placeholders */
-        .item-slot.empty-slot {
-            background: #e9e5dc;
-            border: 1px dashed #c8c2b4;
-            color: #8c8376;
-        }
-
-        .item-slot.empty-slot h4 {
-            color: #736b5e;
-            font-style: italic;
-        }
-
-        /* Page 4 Contact Info Styling */
-        .contact-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: var(--text-primary);
-            text-align: center;
-        }
-
-        .contact-content strong {
-            font-weight: 500;
-            color: var(--accent);
-        }
-
-        /* Page Footer for Book Page Numbers */
-        .page-footer {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
-            font-family: var(--font-serif);
-            font-style: italic;
-        }
-
-        /* External Navigation Bar */
-        .nav-bar {
-            margin-top: 25px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .control-btn {
-            background: #2d2925;
-            border: 1px solid #453f39;
-            color: #dcd6cd;
-            padding: 10px 22px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
+            color: var(--text-muted);
             cursor: pointer;
+            border-radius: 8px;
             transition: all 0.2s ease;
         }
 
-        .control-btn:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
+        .nav-btn:hover {
+            color: var(--primary);
+            background-color: #f2f5f1;
         }
 
-        .page-counter {
-            color: #8c8378;
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            font-variant-numeric: tabular-nums;
+        .nav-btn.active {
+            color: white;
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-card, .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 36px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        h2 {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .section-block {
+            margin-bottom: 28px;
+        }
+
+        .section-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .section-body {
+            font-size: 20px;
+            color: var(--text-main);
+            padding-left: 4px;
+        }
+
+        .section-body ul {
+            list-style-type: none;
+        }
+
+        .section-body li {
+            margin-bottom: 8px;
+        }
+
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            background-color: #eef2ed;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .map-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-right: 5px;
+        }
+
+        .filter-btn {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Catalog Grid & Cards */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+        }
+
+        /* Automatic sizing & normal resolution preservation */
+        .product-img-wrap {
+            width: 100%;
+            height: 200px;
+            background-color: #f4f5f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Keeps normal proportions without stretching */
+            padding: 10px;
+        }
+
+        .product-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .product-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        .product-info {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        @media(max-width: 650px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 16px;
+            }
+            nav {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                flex: 1;
+                text-align: center;
+                padding: 10px 12px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="scene">
-        <div class="catalog-container" id="catalogContainer">
-            
-            <!-- PAGE 4 -->
-            <div class="catalog-page" id="page-4" style="z-index: 1;">
-                <div class="page-header">
-                    <h2>Kontakt</h2>
-                </div>
-                <div class="contact-content">
-                    <p><strong>Telefon:</strong> +420 313 101 600</p>
-                    <p><strong>Pobočka:</strong> Hořovice 9.května 175</p>
-                </div>
-                <div class="page-footer">
-                    <span>4</span>
-                </div>
-            </div>
-
-            <!-- PAGE 3 -->
-            <div class="catalog-page" id="page-3" style="z-index: 2;">
-                <div class="page-header">
-                    <h2>Nově na skladě</h2>
-                </div>
-                <div class="item-grid">
-                    <div class="item-slot empty-slot">
-                        <span class="icon">📦</span>
-                        <h4>Prázné :O</h4>
-                    </div>
-                    <div class="item-slot empty-slot">
-                        <span class="icon">📦</span>
-                        <h4>Prázné :O</h4>
-                    </div>
-                    <div class="item-slot empty-slot">
-                        <span class="icon">📦</span>
-                        <h4>Prázné :O</h4>
-                    </div>
-                    <div class="item-slot empty-slot">
-                        <span class="icon">📦</span>
-                        <h4>Prázné :O</h4>
-                    </div>
-                </div>
-                <div class="page-footer">
-                    <span>3</span>
-                </div>
-            </div>
-
-            <!-- PAGE 2 -->
-            <div class="catalog-page" id="page-2" style="z-index: 3;">
-                <div class="page-header">
-                    <h2>Nově na skladě</h2>
-                </div>
-                <div class="item-grid">
-                    <div class="item-slot">
-                        <span class="icon">🧥</span>
-                        <h4>&lt;Název oblečení&gt;</h4>
-                        <div class="price">&lt;cena&gt;</div>
-                    </div>
-                    <div class="item-slot">
-                        <span class="icon">👔</span>
-                        <h4>&lt;Název oblečení&gt;</h4>
-                        <div class="price">&lt;cena&gt;</div>
-                    </div>
-                    <div class="item-slot">
-                        <span class="icon">🧶</span>
-                        <h4>&lt;Název oblečení&gt;</h4>
-                        <div class="price">&lt;cena&gt;</div>
-                    </div>
-                    <div class="item-slot">
-                        <span class="icon">🧣</span>
-                        <h4>&lt;Název oblečení&gt;</h4>
-                        <div class="price">&lt;cena&gt;</div>
-                    </div>
-                </div>
-                <div class="page-footer">
-                    <span>2</span>
-                </div>
-            </div>
-
-            <!-- PAGE 1 -->
-            <div class="catalog-page" id="page-1" style="z-index: 4;">
-                <div class="page-1-content">
-                    <h1>Lada</h1>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnNmaDMJcAqXC2yOM9An739_li4juVVn6hm6QlM9F8WA&s=10" alt="Lada Fashion" class="firm-image">
-                    <div class="firm-address">Najdete nás na adrese Hořovice 9.května 175</div>
-                </div>
-                <div class="page-footer">
-                    <span>1</span>
-                </div>
-            </div>
-
+    <header>
+        <div class="nav-container">
+            <div class="brand">Lada</div>
+            <nav>
+                <button class="nav-btn active" onclick="switchTab('onas', this)">O nás</button>
+                <button class="nav-btn" onclick="switchTab('katalog', this)">Katalog</button>
+                <button class="nav-btn" onclick="switchTab('kontakt', this)">Kontakt</button>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <!-- External Controls -->
-    <div class="nav-bar">
-        <button class="control-btn" onclick="prevPage()">Předchozí strana</button>
-        <span class="page-counter" id="pageCounter">Strana 1/4</span>
-        <button class="control-btn" onclick="nextPage()">Další strana</button>
-    </div>
+    <main>
+        <!-- O NÁS -->
+        <div id="onas" class="tab-content active">
+            <div class="info-card">
+                <h2>O nás</h2>
+                
+                <div class="section-block">
+                    <div class="section-title">Čím se zabýváme?</div>
+                    <div class="section-body">
+                        <ul>
+                            <li>Prodáváme oblečení, župany a plavky</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <div class="section-title">Kdy máme otevřeno?</div>
+                    <div class="section-body">
+                        <ul>
+                            <li>Pondělí až pátek: 9:00 - 12:00, 13:00 - 17:00</li>
+                            <li>Sobota: 9:00 - 11:00</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <div class="section-title">Kde nás najdete?</div>
+                    <div class="section-body">
+                        <p>9. května 175, 268 01 Hořovice</p>
+                        <a href="https://mapy.cz/zakladni?q=9.kv%C4%9Btna%20175%2C%2026801%20Ho%C5%99ovice" target="_blank" class="map-btn">
+                            🗺️ Otevřít na Mapy.cz
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KATALOG -->
+        <div id="katalog" class="tab-content">
+            <div style="margin-bottom: 24px;">
+                <h2>Katalog</h2>
+                <div class="filter-bar">
+                    <span class="filter-label">Seřadit:</span>
+                    <button class="filter-btn active" onclick="sortProducts('az', this)">A–Z</button>
+                    <button class="filter-btn" onclick="sortProducts('price-asc', this)">Cena – Od nejnižší</button>
+                    <button class="filter-btn" onclick="sortProducts('price-desc', this)">Cena – Od nejvyšší</button>
+                </div>
+            </div>
+            
+            <div class="catalog-grid" id="catalogGrid">
+                
+                <!-- PRODUCT ITEM 1 -->
+                <div class="product-card" data-name="Triko" data-price="390">
+                    <div class="product-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60" alt="Triko">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-header">
+                            <div class="product-name">Triko</div>
+                            <div class="product-price">390 Kč</div>
+                        </div>
+                        <div class="product-info">Pohodlné bavlněné tričko pro každodenní nošení.</div>
+                    </div>
+                </div>
+
+                <!-- PRODUCT ITEM 2 -->
+                <div class="product-card" data-name="Mikina" data-price="890">
+                    <div class="product-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=60" alt="Mikina">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-header">
+                            <div class="product-name">Mikina</div>
+                            <div class="product-price">890 Kč</div>
+                        </div>
+                        <div class="product-info">Teplá a příjemná mikina s kapucí do chladnějšího počasí.</div>
+                    </div>
+                </div>
+
+                <!-- PRODUCT ITEM 3 -->
+                <div class="product-card" data-name="Plavky" data-price="650">
+                    <div class="product-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=500&auto=format&fit=crop&q=60" alt="Plavky">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-header">
+                            <div class="product-name">Plavky</div>
+                            <div class="product-price">650 Kč</div>
+                        </div>
+                        <div class="product-info">Stylové plavky z rychleschnoucího materiálu k vodě.</div>
+                    </div>
+                </div>
+
+                <!-- PRODUCT ITEM 4 -->
+                <div class="product-card" data-name="Kalhoty" data-price="790">
+                    <div class="product-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500&auto=format&fit=crop&q=60" alt="Kalhoty">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-header">
+                            <div class="product-name">Kalhoty</div>
+                            <div class="product-price">790 Kč</div>
+                        </div>
+                        <div class="product-info">Pohodlné kalhoty volného střihu pro maximální komfort.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- KONTAKT -->
+        <div id="kontakt" class="tab-content">
+            <div class="contact-card">
+                <h2>Kontakt</h2>
+                
+                <div class="section-block">
+                    <div class="section-title">Chcete nás kontaktovat?</div>
+                    <div class="section-body">
+                        <ul>
+                            <li><strong>Telefon:</strong> +420 313 101 600</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <div class="section-title">Adresa</div>
+                    <div class="section-body">
+                        <p>9. května 175, 268 01 Hořovice</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <script>
-        let currentPageIndex = 0;
-        const totalPages = 4;
+        function switchTab(tabId, btnElement) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
 
-        function updateCatalog() {
-            for (let i = 1; i <= totalPages; i++) {
-                const page = document.getElementById(`page-${i}`);
-                if (i <= currentPageIndex) {
-                    page.classList.add('flipping');
-                    page.style.zIndex = i;
-                } else {
-                    page.classList.remove('flipping');
-                    page.style.zIndex = totalPages - i + 1;
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        function sortProducts(criteria, btnElement) {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const grid = document.getElementById('catalogGrid');
+            const cards = Array.from(grid.getElementsByClassName('product-card'));
+
+            cards.sort((a, b) => {
+                if (criteria === 'az') {
+                    return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'), 'cs');
+                } else if (criteria === 'price-asc') {
+                    return parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price'));
+                } else if (criteria === 'price-desc') {
+                    return parseInt(b.getAttribute('data-price')) - parseInt(a.getAttribute('data-price'));
                 }
-            }
-            document.getElementById('pageCounter').innerText = `Strana ${currentPageIndex + 1}/${totalPages}`;
-        }
+            });
 
-        function nextPage() {
-            if (currentPageIndex < totalPages - 1) {
-                currentPageIndex++;
-            } else {
-                currentPageIndex = 0;
-            }
-            updateCatalog();
+            cards.forEach(card => grid.appendChild(card));
         }
-
-        function prevPage() {
-            if (currentPageIndex > 0) {
-                currentPageIndex--;
-                updateCatalog();
-            }
-        }
-
-        updateCatalog();
     </script>
 </body>
 </html>
